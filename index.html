@@ -1,1245 +1,505 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>MArket Buy - Matheus Abreu</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MArket Buy</title>
 
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-          },
-          colors: {
-            brand: {
-              50: '#ecfdf5',
-              100: '#d1fae5',
-              500: '#10b981',
-              600: '#059669',
-              700: '#047857',
-              800: '#065f46',
-              900: '#064e3b'
-            }
-          }
-        }
-      }
-    }
-  </script>
+    <!-- Metadados para Aplicação Móvel / PWA -->
+    <meta name="theme-color" content="#0d9488">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MArket Buy">
 
-  <style>
-    * {
-      -webkit-tap-highlight-color: transparent;
-      box-sizing: border-box;
-    }
-    input, textarea, select {
-      user-select: auto;
-    }
-    ::-webkit-scrollbar {
-      width: 4px;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 9999px;
-    }
-    .dark ::-webkit-scrollbar-thumb {
-      background: #334155;
-    }
-    .pulse-danger {
-      animation: pulseDanger 1.8s infinite;
-    }
-    @keyframes pulseDanger {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.85; transform: scale(1.02); }
-    }
-  </style>
+    <!-- Ícone Vetorial Embutido (SVG com a saca e insígnia MA) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='110' fill='%230d9488'/%3E%3Cpath d='M156 180v-40a100 100 0 0 1 200 0v40' fill='none' stroke='white' stroke-width='36' stroke-linecap='round'/%3E%3Crect x='116' y='180' width='280' height='260' rx='40' fill='none' stroke='white' stroke-width='36'/%3E%3Crect x='280' y='320' width='140' height='100' rx='20' fill='%23111827' stroke='white' stroke-width='16'/%3E%3Ctext x='350' y='388' fill='white' font-size='56' font-family='Arial, sans-serif' font-weight='900' text-anchor='middle'%3EMA%3C/text%3E%3C/svg%3E">
+
+    <!-- Ícone para iOS (Apple Touch Icon) -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='110' fill='%230d9488'/%3E%3Cpath d='M156 180v-40a100 100 0 0 1 200 0v40' fill='none' stroke='white' stroke-width='36' stroke-linecap='round'/%3E%3Crect x='116' y='180' width='280' height='260' rx='40' fill='none' stroke='white' stroke-width='36'/%3E%3Crect x='280' y='320' width='140' height='100' rx='20' fill='%23111827' stroke='white' stroke-width='16'/%3E%3Ctext x='350' y='388' fill='white' font-size='56' font-family='Arial, sans-serif' font-weight='900' text-anchor='middle'%3EMA%3C/text%3E%3C/svg%3E">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        body { -webkit-tap-highlight-color: transparent; }
+    </style>
 </head>
-<body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex justify-center selection:bg-emerald-500 selection:text-white transition-colors duration-200">
+<body class="bg-gray-50 text-gray-800 font-sans h-screen flex flex-col overflow-hidden">
 
-  <!-- Mobile Frame Container -->
-  <main class="w-full max-w-md bg-white dark:bg-slate-900 min-h-screen flex flex-col shadow-2xl relative pb-10 border-x border-slate-200/60 dark:border-slate-800/80">
-
-    <!-- Header Navigation & Branding -->
-    <header class="sticky top-0 z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 px-4 py-3 flex items-center justify-between">
-      <div class="flex items-center gap-2.5">
-        <div class="relative w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-600 via-teal-600 to-emerald-400 flex items-center justify-center text-white shadow-lg shadow-emerald-600/20">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-          </svg>
-          <div class="absolute -bottom-1 -right-1 bg-slate-900 dark:bg-white text-emerald-400 dark:text-emerald-600 text-[8px] font-black px-1 rounded-md border-2 border-white dark:border-slate-900 leading-tight">MA</div>
+    <!-- HEADER -->
+    <header class="bg-white border-b px-4 py-3 flex justify-between items-center shrink-0 shadow-sm z-10">
+        <div class="flex items-center gap-2">
+            <!-- Logo MA SVG -->
+            <div class="relative w-10 h-10 flex items-center justify-center bg-teal-600 rounded-xl shadow-md">
+                <i data-lucide="shopping-bag" class="text-white w-6 h-6"></i>
+                <div class="absolute -bottom-1 -right-1 bg-gray-900 text-white text-[9px] font-bold px-1.5 py-0.5 rounded border border-white">
+                    MA
+                </div>
+            </div>
+            <div class="leading-tight">
+                <h1 class="text-lg font-bold text-gray-900 tracking-tight">MArket<span class="text-teal-600">Buy</span> <span class="bg-green-100 text-green-700 text-[10px] px-1 rounded font-bold align-top">PRO</span></h1>
+                <p id="header-local" class="text-xs text-gray-500 font-medium uppercase truncate w-32">Novo Carrinho</p>
+            </div>
         </div>
-        <div>
-          <div class="flex items-baseline gap-1">
-            <h1 class="font-black text-lg leading-tight tracking-tight text-slate-900 dark:text-white">
-              <span class="text-emerald-500">MA</span>rket <span class="font-extrabold text-slate-800 dark:text-slate-200">Buy</span>
-            </h1>
-            <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 font-bold uppercase tracking-wider">Pro</span>
-          </div>
-          <p id="headerStatusSubtitle" class="text-xs text-slate-500 dark:text-slate-400 font-medium truncate max-w-[170px]">
-            Mercado Inteligente
-          </p>
+        <div class="flex items-center gap-3">
+            <button onclick="toggleView('compras')" id="btn-tab-compras" class="text-sm font-semibold text-teal-700 border-b-2 border-teal-600 pb-1">Compras</button>
+            <button onclick="toggleView('historico')" id="btn-tab-historico" class="text-sm font-semibold text-gray-400 pb-1">Histórico</button>
         </div>
-      </div>
-
-      <div class="flex items-center gap-1.5">
-        <!-- Dark mode toggle -->
-        <button id="themeToggleBtn" aria-label="Alternar tema" class="p-2 rounded-xl text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800 transition">
-          <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
-          <i data-lucide="sun" class="w-4 h-4 hidden dark:block text-amber-400"></i>
-        </button>
-
-        <!-- View Switch Tabs -->
-        <nav class="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl text-xs font-semibold">
-          <button id="tabActiveBtn" onclick="switchView('active')" class="px-3 py-1.5 rounded-lg transition-all shadow-sm bg-white dark:bg-slate-700 text-slate-900 dark:text-white">
-            Compras
-          </button>
-          <button id="tabHistoryBtn" onclick="switchView('history')" class="px-3 py-1.5 rounded-lg transition-all text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200">
-            Histórico
-          </button>
-        </nav>
-      </div>
     </header>
 
-    <!-- CONTENT VIEWS -->
-    <div class="flex-1 flex flex-col overflow-hidden">
-
-      <!-- VIEW 1: START NEW PURCHASE -->
-      <section id="viewSetup" class="hidden flex-1 flex-col justify-center p-4 py-6 overflow-y-auto">
-        <div class="text-center mb-6">
-          <div class="inline-flex p-4 rounded-3xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 mb-3 ring-8 ring-emerald-50/50 dark:ring-emerald-900/10">
-            <i data-lucide="shopping-bag" class="w-10 h-10"></i>
-          </div>
-          <h2 class="text-2xl font-black text-slate-900 dark:text-white tracking-tight">Nova Compra</h2>
-          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-xs mx-auto">
-            Defina o mercado e o teto máximo. O <strong>MArket Buy</strong> alertará em tempo real sobre seu saldo e comparará seus preços passados!
-          </p>
-        </div>
-
-        <form id="startPurchaseForm" onsubmit="handleStartPurchase(event)" class="space-y-4 bg-slate-50 dark:bg-slate-800/40 p-5 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm">
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">
-              Supermercado / Local
-            </label>
-            <div class="relative">
-              <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                <i data-lucide="map-pin" class="w-4 h-4"></i>
-              </span>
-              <input type="text" id="setupMarketName" required placeholder="Ex: Assaí Atacadista, Atacadão, Carrefour..." 
-                class="w-full pl-10 pr-4 py-3 rounded-2xl bg-white dark:bg-slate-800 text-sm border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-semibold text-slate-900 dark:text-white placeholder-slate-400">
-            </div>
-          </div>
-
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">
-              Teto Máximo de Gastos (R$)
-            </label>
-            <div class="relative">
-              <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 font-bold text-sm">
-                R$
-              </span>
-              <input type="number" id="setupBudgetLimit" step="0.01" min="1" required placeholder="0,00" 
-                class="w-full pl-11 pr-4 py-3 rounded-2xl bg-white dark:bg-slate-800 text-sm border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-bold text-slate-900 dark:text-white placeholder-slate-400">
-            </div>
-          </div>
-
-          <button type="submit" class="w-full mt-2 py-3.5 px-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] text-white font-extrabold text-sm shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2 transition duration-150">
-            <i data-lucide="play" class="w-4 h-4 fill-current"></i>
-            Entrar no Mercado e Começar
-          </button>
-        </form>
-      </section>
-
-      <!-- VIEW 2: ACTIVE PURCHASE (In-Store Live Mode) -->
-      <section id="viewActive" class="hidden flex-1 flex-col overflow-hidden">
-        
-        <div class="flex-none p-4 pb-2 space-y-4">
-          <!-- Live Budget Card -->
-          <div class="relative overflow-hidden rounded-3xl bg-slate-900 text-white p-5 shadow-xl shadow-slate-950/20 border border-slate-800 transition-all">
-            <!-- Glow Effect -->
-            <div id="budgetGlow" class="absolute -right-10 -bottom-10 w-48 h-48 rounded-full bg-emerald-500/15 blur-2xl pointer-events-none transition-colors duration-500"></div>
-
-          <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center gap-2">
-              <span class="inline-flex w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-              <span id="activeStoreBadge" class="text-xs font-bold text-slate-300 uppercase tracking-wider truncate max-w-[180px]">Supermercado</span>
-            </div>
-            <span id="budgetPercentLabel" class="text-[11px] font-black px-2.5 py-1 rounded-full bg-slate-800 text-emerald-400 border border-slate-700">
-              0% do teto
-            </span>
-          </div>
-
-          <div class="flex items-baseline justify-between mt-1">
+    <!-- TELA DE SETUP (Nova Compra) -->
+    <main id="view-setup" class="flex-1 overflow-y-auto p-4 flex flex-col justify-center max-w-md mx-auto w-full">
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+            <h2 class="text-xl font-bold text-center text-gray-800">Nova Compra</h2>
             <div>
-              <p class="text-[11px] text-slate-400 font-semibold tracking-wide uppercase">Total Acumulado</p>
-              <h2 id="totalSpentText" class="text-3xl font-black tracking-tight text-white">R$ 0,00</h2>
+                <label class="block text-sm font-medium text-gray-600 mb-1">Local (Supermercado / Loja)</label>
+                <input type="text" id="setup-local" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-teal-500 transition" placeholder="Ex: Assaí, Carrefour, Continente...">
             </div>
-            <div class="text-right">
-              <p class="text-[11px] text-slate-400 font-semibold tracking-wide uppercase">Saldo Disponível</p>
-              <p id="remainingBudgetText" class="text-lg font-black text-emerald-400">R$ 0,00</p>
+            <div>
+                <label class="block text-sm font-medium text-gray-600 mb-1">Teto de Gastos (R$)</label>
+                <input type="number" id="setup-teto" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-teal-500 transition" placeholder="Ex: 600.00">
             </div>
-          </div>
-
-          <!-- Dynamic Progress Bar -->
-          <div class="mt-4">
-            <div class="w-full bg-slate-800 rounded-full h-3 overflow-hidden p-0.5 border border-slate-700/60">
-              <div id="budgetProgressBar" class="h-full rounded-full transition-all duration-300 bg-emerald-500 w-[0%]"></div>
-            </div>
-            <div class="flex justify-between items-center text-[11px] text-slate-400 mt-1.5 font-bold">
-              <span>R$ 0,00</span>
-              <span id="targetBudgetSpan">Teto: R$ 0,00</span>
-            </div>
-          </div>
-
-          <!-- Alert notification banner -->
-          <div id="alertBanner" class="hidden mt-3 pt-2.5 border-t border-red-500/30 flex items-center gap-2 text-xs font-bold text-rose-400">
-            <i data-lucide="alert-triangle" class="w-4 h-4 shrink-0 animate-bounce"></i>
-            <span id="alertBannerMsg">Você ultrapassou o teto!</span>
-          </div>
+            <button onclick="iniciarCompra()" class="w-full bg-teal-600 text-white font-bold text-lg py-3 rounded-xl shadow-lg shadow-teal-200 active:scale-95 transition">Começar a Comprar</button>
         </div>
+    </main>
 
-        <!-- SMART FAST INPUT (Feature #2 - Natural Language Parser) -->
-        <div class="bg-gradient-to-b from-white to-slate-50 dark:from-slate-800 dark:to-slate-800/90 rounded-3xl p-4 border border-slate-200/90 dark:border-slate-800 shadow-sm space-y-3">
-          
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <div class="p-1.5 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400">
-                <i data-lucide="sparkles" class="w-4 h-4"></i>
-              </div>
-              <span class="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-200">
-                Adição Rápida Inteligente
-              </span>
-            </div>
-            <span class="text-[10px] text-slate-400 font-medium">Digite e tecle Enter ↵</span>
-          </div>
-
-          <!-- Natural text input bar -->
-          <form id="smartAddForm" onsubmit="handleSmartSubmit(event)" class="relative">
-            <input type="text" id="smartInput" autocomplete="off"
-              placeholder='Ex: "2 arroz 3,99" ou "1.45 alcatra 42,90kg"'
-              class="w-full pl-3.5 pr-12 py-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-900 dark:text-white placeholder-slate-400 shadow-inner">
-            <button type="submit" aria-label="Adicionar item" class="absolute right-1.5 top-1.5 bottom-1.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center active:scale-95 transition">
-              <i data-lucide="plus" class="w-4 h-4"></i>
-            </button>
-          </form>
-
-          <!-- Live smart detection preview badge -->
-          <div id="parserPreviewBox" class="p-3 bg-slate-100 dark:bg-slate-900/60 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 flex items-center justify-between text-xs transition">
-            <div class="flex items-center gap-2.5 min-w-0">
-              <span id="previewEmoji" class="text-xl shrink-0">🛒</span>
-              <div class="min-w-0">
-                <div class="flex items-center gap-1.5 truncate">
-                  <span id="previewQtyMode" class="font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950 px-1.5 py-0.5 rounded text-[10px]">1 un</span>
-                  <span id="previewName" class="font-bold text-slate-800 dark:text-slate-200 truncate">Comece a digitar...</span>
-                </div>
-                <div id="previewPriceComparison" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
-                  Preço: R$ 0,00
-                </div>
-              </div>
-            </div>
-            <div class="text-right shrink-0 pl-2">
-              <span class="text-[10px] text-slate-400 uppercase font-semibold block">Total</span>
-              <span id="previewSubtotal" class="font-black text-sm text-slate-900 dark:text-white">R$ 0,00</span>
-            </div>
-          </div>
-
-          <!-- Help tips accordion -->
-          <div class="text-[11px] text-slate-400 space-y-1 pt-1 border-t border-slate-100 dark:border-slate-700/50">
-            <p class="flex items-center gap-1 font-medium">
-              <i data-lucide="check" class="w-3 h-3 text-emerald-500"></i>
-              <span><strong>Unidades:</strong> <code class="text-slate-600 dark:text-slate-300">2 leite 4,50</code> ou <code class="text-slate-600 dark:text-slate-300">3 molho tomate 2,29un</code></span>
-            </p>
-            <p class="flex items-center gap-1 font-medium">
-              <i data-lucide="check" class="w-3 h-3 text-emerald-500"></i>
-              <span><strong>Carnes e Pesados:</strong> <code class="text-slate-600 dark:text-slate-300">1.45 picanha 69,90</code> ou <code class="text-slate-600 dark:text-slate-300">0.850 queijo 39kg</code></span>
-            </p>
-          </div>
-        </div>
-        </div>
-
-        <!-- ITEMS IN CART LIST (Scrollable Area) -->
-        <div class="flex-1 overflow-y-auto px-4 pb-4">
-          <div class="flex items-center justify-between mb-2 px-1 sticky top-0 bg-slate-100/90 dark:bg-slate-950/90 backdrop-blur-sm z-10 py-1">
-            <h3 class="text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-              <span>Carrinho de Compras</span>
-              <span id="cartCountBadge" class="bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 px-2 py-0.5 rounded-full text-[10px] font-black">0</span>
-            </h3>
-            <span id="cartSumPreview" class="text-xs font-bold text-slate-700 dark:text-slate-300">Total: R$ 0,00</span>
-          </div>
-
-          <!-- Empty cart placeholder -->
-          <div id="cartEmptyState" class="hidden text-center py-10 px-4 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-3xl">
-            <div class="text-3xl mb-2">🛍️</div>
-            <p class="text-sm font-bold text-slate-700 dark:text-slate-300">Seu carrinho está vazio</p>
-            <p class="text-xs text-slate-400 mt-1 max-w-[220px] mx-auto">Digite os itens na barra rápida acima para começar a somar seus gastos.</p>
-          </div>
-
-          <!-- Cart list elements -->
-          <ul id="cartItemsList" class="space-y-2">
-            <!-- Populated via Javascript -->
-          </ul>
-        </div>
-
-        <!-- FINISH PURCHASE ACTIONS (Fixed Bottom) -->
-        <div class="flex-none p-4 pt-3 pb-6 space-y-2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-t border-slate-200/60 dark:border-slate-800">
-          <button onclick="handleFinishPurchase()" class="w-full py-3.5 px-4 rounded-2xl bg-slate-900 hover:bg-slate-800 dark:bg-emerald-600 dark:hover:bg-emerald-700 text-white font-black text-sm shadow-xl flex items-center justify-center gap-2 active:scale-[0.98] transition">
-            <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400 dark:text-white"></i>
-            Finalizar Compra
-          </button>
-          
-          <button id="btnDiscardPurchase" type="button" onclick="openDiscardModal(event)" class="w-full py-3 text-xs font-extrabold text-rose-500 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-xl transition text-center flex items-center justify-center gap-1.5 active:scale-95">
-            <i data-lucide="trash-2" class="w-4 h-4 text-rose-500"></i>
-            Descartar esta compra
-          </button>
-        </div>
-
-      </section>
-
-      <!-- VIEW 3: PURCHASE HISTORY & EXPORT -->
-      <section id="viewHistory" class="hidden flex-1 flex-col p-4 overflow-y-auto space-y-4">
-        <div class="flex items-center justify-between">
-          <div>
-            <h2 class="text-lg font-black text-slate-900 dark:text-white">Histórico de Compras</h2>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Suas idas anteriores ao mercado</p>
-          </div>
-          
-          <div class="flex items-center gap-1">
-            <button onclick="exportHistoryCSV()" title="Exportar para Excel / CSV" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold flex items-center gap-1 transition">
-              <i data-lucide="download" class="w-3.5 h-3.5"></i>
-              CSV
-            </button>
-            <button onclick="handleClearHistory()" title="Limpar todo o histórico" class="p-2 rounded-xl text-slate-400 hover:text-rose-500 transition">
-              <i data-lucide="trash-2" class="w-4 h-4"></i>
-            </button>
-          </div>
-        </div>
-
-        <!-- History Empty State -->
-        <div id="historyEmptyState" class="hidden text-center py-12 px-4 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-3xl">
-          <div class="text-3xl mb-2">📜</div>
-          <p class="text-sm font-bold text-slate-700 dark:text-slate-300">Nenhuma compra salva</p>
-          <p class="text-xs text-slate-400 mt-1">Conforme você finalizar suas compras, elas aparecerão com todos os detalhes e comparações aqui.</p>
-        </div>
-
-        <!-- History Cards List -->
-        <div id="historyListContainer" class="space-y-3">
-          <!-- Populated via Javascript -->
-        </div>
-      </section>
-
-    </div>
-
-    <!-- Notification Toast -->
-    <div id="toastNotification" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white text-xs font-bold py-2.5 px-4 rounded-full shadow-2xl flex items-center gap-2 pointer-events-none opacity-0 transition-opacity duration-200">
-      <i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>
-      <span id="toastMessage">Ação realizada!</span>
-    </div>
-
-    <!-- Custom Discard Confirmation Modal (avoids browser confirm() blocking) -->
-    <div id="discardModal" class="hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
-      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 max-w-xs w-full shadow-2xl text-center space-y-4">
-        <div class="w-12 h-12 rounded-2xl bg-rose-100 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 flex items-center justify-center mx-auto">
-          <i data-lucide="alert-triangle" class="w-6 h-6"></i>
-        </div>
-        <div>
-          <h3 class="text-base font-black text-slate-900 dark:text-white">Descartar compra?</h3>
-          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
-            Tem certeza que deseja cancelar? Todos os itens adicionados nesta sessão serão perdidos.
-          </p>
-        </div>
-        <div class="flex gap-2 pt-1">
-          <button type="button" onclick="closeDiscardModal()" class="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold text-xs transition">
-            Voltar
-          </button>
-          <button type="button" onclick="confirmDiscardPurchase()" class="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs shadow-md shadow-rose-600/30 transition">
-            Sim, descartar
-          </button>
-        </div>
-      </div>
-    </div>
-
-  </main>
-
-  <script>
-    /* =====================================================================
-       400+ ITEMS CLASSIFIER DICTIONARY & SAUSAGE / EMBUTIDOS OVERRIDE
-       ===================================================================== */
-    // Note: Sausages, linguiças and calabresas explicitly use "🌭" and sausage iconography
-    const ITEM_CATALOG = [
-      // Embutidos & Sausages (Special user request)
-      { patterns: ['linguica', 'calabresa', 'salsicha', 'toscana', 'paio', 'chourico'], emoji: '🌭', icon: 'sandwich', label: 'Embutido' },
-      { patterns: ['salame', 'presunto', 'mortadela', 'peito de peru', 'copa', 'bacon', 'panceta', 'torresmo'], emoji: '🥓', icon: 'ham', label: 'Frios & Bacon' },
-
-      // Bovinos e Carnes Nobres
-      { patterns: ['picanha', 'alcatra', 'patinho', 'acem', 'maminha', 'fraldinha', 'contra file', 'file mignon', 'costela bovina', 'cupim', 'carne moida', 'carne seca', 'charque', 'bife ancho', 'musculo', 'lagarto', 'coxao mole', 'coxao duro', 'ossobuco', 'figado', 'carne'], emoji: '🥩', icon: 'beef', label: 'Carne Bovina' },
-      
-      // Aves
-      { patterns: ['frango', 'peito de frango', 'coxa de frango', 'sobrecoxa', 'asa de frango', 'tulipa', 'coracao de galinha', 'galinha', 'moela', 'chester', 'peru'], emoji: '🍗', icon: 'drumstick', label: 'Frango & Aves' },
-      
-      // Suínos
-      { patterns: ['porco', 'lombo suino', 'costelinha de porco', 'bisteca', 'pernil'], emoji: '🍖', icon: 'ham', label: 'Carne Suína' },
-
-      // Peixes & Frutos do Mar
-      { patterns: ['salmao', 'tilapia', 'bacalhau', 'atum', 'sardinha', 'camarao', 'polvo', 'lula', 'mexilhao', 'peixe', 'merluza', 'cacao', 'truta', 'kani'], emoji: '🐟', icon: 'fish', label: 'Pescados' },
-
-      // Grãos, Farinhas e Cereais
-      { patterns: ['arroz', 'feijao', 'lentilha', 'grao de bico', 'ervilha seca', 'soja', 'aveia', 'quinoa', 'chia', 'linhaca', 'fubá', 'fuba', 'cuscuz', 'flocao', 'polvilho', 'tapioca', 'farofa', 'farinha'], emoji: '🌾', icon: 'wheat', label: 'Grãos & Farinhas' },
-      { patterns: ['pipoca', 'milho de pipoca'], emoji: '🍿', icon: 'popcorn', label: 'Pipoca' },
-      { patterns: ['granola', 'cereal', 'sucrilhos', 'corn flakes'], emoji: '🥣', icon: 'wheat', label: 'Cereais' },
-      { patterns: ['macarrao', 'espaguete', 'penne', 'parafuso', 'lasanha', 'talharim', 'massa'], emoji: '🍝', icon: 'utensils', label: 'Massas' },
-      { patterns: ['miojo', 'ramen', 'noodles', 'instantaneo'], emoji: '🍜', icon: 'soup', label: 'Massa Instantânea' },
-
-      // Açúcar, Sal, Óleos e Condimentos
-      { patterns: ['acucar', 'demerara', 'mascavo', 'adocante'], emoji: '🧂', icon: 'candy', label: 'Açúcar' },
-      { patterns: ['sal refinado', 'sal grosso', 'sal rosa', 'sal marinho', 'sal'], emoji: '🧂', icon: 'sparkles', label: 'Sal & Tempero' },
-      { patterns: ['oleo de soja', 'oleo de girassol', 'oleo de milho', 'oleo de coco', 'oleo', 'azeite', 'oliva'], emoji: '🫒', icon: 'droplet', label: 'Óleos & Azeite' },
-      { patterns: ['vinagre'], emoji: '🍾', icon: 'wine', label: 'Vinagre' },
-      { patterns: ['molho de tomate', 'extrato de tomate', 'passata', 'molho'], emoji: '🥫', icon: 'soup', label: 'Molhos & Conservas' },
-      { patterns: ['maionese'], emoji: '🧴', icon: 'egg', label: 'Maionese' },
-      { patterns: ['ketchup', 'mostarda', 'shoyu', 'pimenta', 'tabasco'], emoji: '🌶️', icon: 'flame', label: 'Condimentos' },
-      { patterns: ['milho em lata', 'ervilha em lata', 'palmito', 'azeitona', 'cogumelo', 'champignon', 'seleta'], emoji: '🥫', icon: 'package', label: 'Conservas' },
-
-      // Hortifrúti (Frutas)
-      { patterns: ['banana'], emoji: '🍌', icon: 'apple', label: 'Banana' },
-      { patterns: ['maca', 'maca fuji', 'maca gala'], emoji: '🍎', icon: 'apple', label: 'Maçã' },
-      { patterns: ['laranja', 'mexerica', 'tangerina', 'bergamota'], emoji: '🍊', icon: 'citrus', label: 'Laranja / Cítricos' },
-      { patterns: ['limao', 'limao taiti', 'limao siciliano'], emoji: '🍋', icon: 'citrus', label: 'Limão' },
-      { patterns: ['mamao', 'melancia', 'melao'], emoji: '🍉', icon: 'apple', label: 'Frutas' },
-      { patterns: ['abacaxi'], emoji: '🍍', icon: 'apple', label: 'Abacaxi' },
-      { patterns: ['manga'], emoji: '🥭', icon: 'apple', label: 'Manga' },
-      { patterns: ['uva'], emoji: '🍇', icon: 'grape', label: 'Uva' },
-      { patterns: ['morango'], emoji: '🍓', icon: 'apple', label: 'Morango' },
-      { patterns: ['abacate', 'avocado'], emoji: '🥑', icon: 'apple', label: 'Abacate' },
-      { patterns: ['pera', 'pessego', 'goiaba', 'maracuja', 'kiwi', 'ameixa', 'coco'], emoji: '🥥', icon: 'apple', label: 'Frutas' },
-
-      // Hortifrúti (Legumes & Verduras)
-      { patterns: ['tomate', 'cereja'], emoji: '🍅', icon: 'apple', label: 'Tomate' },
-      { patterns: ['cebola'], emoji: '🧅', icon: 'circle', label: 'Cebola' },
-      { patterns: ['alho'], emoji: '🧄', icon: 'sparkles', label: 'Alho' },
-      { patterns: ['batata doce', 'batata asterix', 'batata'], emoji: '🥔', icon: 'circle', label: 'Batata' },
-      { patterns: ['cenoura'], emoji: '🥕', icon: 'carrot', label: 'Cenoura' },
-      { patterns: ['chuchu', 'abobrinha', 'pepino', 'quiabo', 'jilo'], emoji: '🥒', icon: 'carrot', label: 'Legumes' },
-      { patterns: ['berinjela', 'beterraba'], emoji: '🍆', icon: 'carrot', label: 'Legumes' },
-      { patterns: ['pimentao'], emoji: '🫑', icon: 'flame', label: 'Pimentão' },
-      { patterns: ['mandioca', 'aipim', 'macaxeira', 'inhame'], emoji: '🪵', icon: 'package', label: 'Raízes' },
-      { patterns: ['brocolis', 'couve flor'], emoji: '🥦', icon: 'flower2', label: 'Brócolis / Couve-flor' },
-      { patterns: ['alface', 'couve', 'espinafre', 'rucula', 'agriao', 'repolho', 'cheiro verde', 'salsinha', 'cebolinha', 'coentro', 'hortela', 'manjericao'], emoji: '🥬', icon: 'salad', label: 'Verduras & Ervas' },
-
-      // Laticínios & Ovos
-      { patterns: ['leite em po', 'leite integral', 'leite desnatado', 'leite condensado', 'leite'], emoji: '🥛', icon: 'milk', label: 'Leites' },
-      { patterns: ['ovo', 'ovos', 'caipira', 'codorna'], emoji: '🥚', icon: 'egg', label: 'Ovos' },
-      { patterns: ['manteiga', 'margarina'], emoji: '🧈', icon: 'sandwich', label: 'Manteiga' },
-      { patterns: ['mussarela', 'mucarela', 'prato', 'queijo', 'parmesao', 'provolone', 'gorgonzola', 'brie', 'ricota', 'cottage', 'coalho'], emoji: '🧀', icon: 'pizza', label: 'Queijos' },
-      { patterns: ['requeijao', 'cream cheese', 'creme de leite', 'nata'], emoji: '🥯', icon: 'cup-soda', label: 'Cremes & Requeijão' },
-      { patterns: ['iogurte', 'danone', 'yakult', 'coalhada'], emoji: '🍓', icon: 'cup-soda', label: 'Iogurtes' },
-      { patterns: ['sorvete', 'picole', 'acai'], emoji: '🍨', icon: 'ice-cream-2', label: 'Sorvetes' },
-      { patterns: ['hamburguer', 'nuggets', 'batata frita congelada', 'pizza congelada', 'lasanha congelada', 'pao de queijo'], emoji: '🍕', icon: 'pizza', label: 'Congelados' },
-
-      // Padaria & Sobremesas
-      { patterns: ['pao frances', 'pao de forma', 'pao integral', 'pao', 'baguete', 'bisnaga', 'torrada'], emoji: '🥖', icon: 'sandwich', label: 'Pães' },
-      { patterns: ['croissant'], emoji: '🥐', icon: 'croissant', label: 'Croissant' },
-      { patterns: ['bolo', 'torta', 'sonho', 'rosquinha'], emoji: '🍰', icon: 'cake', label: 'Bolos & Doces' },
-      { patterns: ['biscoito', 'bolacha', 'cookie', 'wafer', 'cream cracker'], emoji: '🍪', icon: 'cookie', label: 'Biscoitos' },
-      { patterns: ['salgadinho', 'cheetos', 'doritos', 'lays', 'chips'], emoji: '🥔', icon: 'package', label: 'Snacks' },
-      { patterns: ['amendoim', 'castanha', 'nozes', 'pistache'], emoji: '🥜', icon: 'nut', label: 'Oleaginosas' },
-      { patterns: ['chocolate', 'bombom', 'bala', 'pirulito'], emoji: '🍫', icon: 'candy', label: 'Chocolates & Doces' },
-      { patterns: ['cafe', 'nespresso', 'dolce gusto', 'cappuccino'], emoji: '☕', icon: 'coffee', label: 'Café' },
-      { patterns: ['cha', 'mate'], emoji: '🍵', icon: 'cup-soda', label: 'Chá' },
-      { patterns: ['achocolatado', 'toddy', 'nescau', 'cacau'], emoji: '🍫', icon: 'cup-soda', label: 'Achocolatado' },
-
-      // Bebidas
-      { patterns: ['agua sem gas', 'agua com gas', 'agua mineral', 'agua'], emoji: '💧', icon: 'droplets', label: 'Água Mineral' },
-      { patterns: ['coca cola', 'guarana', 'fanta', 'sprite', 'pepsi', 'refrigerante', 'refri'], emoji: '🥤', icon: 'cup-soda', label: 'Refrigerantes' },
-      { patterns: ['suco', 'nectar', 'del valle'], emoji: '🧃', icon: 'wine', label: 'Sucos' },
-      { patterns: ['energetico', 'red bull', 'monster'], emoji: '⚡', icon: 'zap', label: 'Energéticos' },
-      { patterns: ['cerveja', 'heineken', 'brahma', 'skol', 'amstel', 'budweiser', 'corona', 'chopp', 'ipa'], emoji: '🍺', icon: 'beer', label: 'Cervejas' },
-      { patterns: ['vinho', 'espumante', 'prosecco', 'champagne'], emoji: '🍷', icon: 'wine', label: 'Vinhos & Espumantes' },
-      { patterns: ['whisky', 'vodka', 'gin', 'cachaca', 'rum', 'tequila', 'licor', 'campari', 'aperol'], emoji: '🥃', icon: 'wine', label: 'Destilados' },
-      { patterns: ['gelo'], emoji: '🧊', icon: 'snowflake', label: 'Gelo' },
-
-      // Limpeza & Utilidades
-      { patterns: ['sabao em po', 'sabao liquido', 'lava roupas', 'ariel', 'omo'], emoji: '🧼', icon: 'sparkles', label: 'Lavanderia' },
-      { patterns: ['amaciante', 'comfort', 'downy'], emoji: '🌸', icon: 'sparkles', label: 'Amaciante' },
-      { patterns: ['agua sanitaria', 'cloro', 'alvejante'], emoji: '🧴', icon: 'shield-alert', label: 'Alvejantes' },
-      { patterns: ['detergente', 'ype', 'limpol'], emoji: '🧴', icon: 'sparkles', label: 'Detergente' },
-      { patterns: ['esponja', 'bombril', 'la de aco', 'pano de prato', 'perfex'], emoji: '🧽', icon: 'layers', label: 'Acessórios Pia' },
-      { patterns: ['desinfetante', 'veja', 'multiuso', 'limpa vidros', 'desengordurante'], emoji: '🧴', icon: 'spray-can', label: 'Limpadores' },
-      { patterns: ['saco de lixo', 'lixo'], emoji: '🗑️', icon: 'trash-2', label: 'Sacos de Lixo' },
-      { patterns: ['papel toalha', 'guardanapo', 'papel aluminio', 'pvc', 'filme'], emoji: '🧻', icon: 'scroll', label: 'Descartáveis Papel' },
-      { patterns: ['vassoura', 'rodo', 'balde'], emoji: '🧹', icon: 'hammer', label: 'Limpeza Pesada' },
-      { patterns: ['inseticida', 'repelente', 'baygon', 'raid'], emoji: '🦟', icon: 'spray-can', label: 'Inseticidas' },
-
-      // Higiene & Cuidados Pessoais
-      { patterns: ['papel higienico', 'neve'], emoji: '🧻', icon: 'scroll', label: 'Papel Higiênico' },
-      { patterns: ['sabonete', 'dove', 'palmolive'], emoji: '🧼', icon: 'bath', label: 'Sabonete' },
-      { patterns: ['shampoo', 'condicionador', 'creme de cabelo', 'mascara capilar'], emoji: '🧴', icon: 'bath', label: 'Cabelos' },
-      { patterns: ['pasta de dente', 'creme dental', 'escova de dente', 'fio dental', 'enxaguante', 'colgate'], emoji: '🪥', icon: 'smile', label: 'Higiene Bucal' },
-      { patterns: ['desodorante', 'rexona', 'axe'], emoji: '🧴', icon: 'spray-can', label: 'Desodorante' },
-      { patterns: ['gillette', 'lamina', 'barbeador'], emoji: '🪒', icon: 'scissors', label: 'Barbear' },
-      { patterns: ['absorvente', 'sempre livre', 'intimus'], emoji: '🩸', icon: 'heart', label: 'Cuidados Íntimos' },
-      { patterns: ['hidratante', 'protetor solar', 'alcool gel', 'lenco umedecido', 'cotonete', 'algodao'], emoji: '🧴', icon: 'sparkles', label: 'Cuidados Pele' },
-      { patterns: ['fralda', 'pampers', 'huggies', 'pomada'], emoji: '👶', icon: 'baby', label: 'Infantil' },
-
-      // Pet
-      { patterns: ['racao', 'petisco', 'whiskas', 'pedigree', 'areia de gato', 'gato', 'cachorro', 'pet'], emoji: '🐶', icon: 'bone', label: 'Pet Shop' }
-    ];
-
-    /* =====================================================================
-       PERSISTENCE & STATE
-       ===================================================================== */
-    const STORAGE_CURRENT = 'marketbuy_current_purchase';
-    const STORAGE_HISTORY = 'marketbuy_history';
-    const STORAGE_THEME = 'marketbuy_theme';
-
-    let currentPurchase = null;
-    let purchaseHistory = [];
-
-    // Mock initial sample for first time users
-    const sampleHistory = [
-      {
-        id: 'hist-1',
-        marketName: 'Atacadão BR-230',
-        budgetLimit: 350.00,
-        totalSpent: 312.40,
-        date: '2026-10-24T16:20:00',
-        items: [
-          { id: 1, name: 'Arroz 5kg', mode: 'unit', qty: 2, price: 24.90, subtotal: 49.80, emoji: '🌾' },
-          { id: 2, name: 'Feijão Carioca', mode: 'unit', qty: 3, price: 7.90, subtotal: 23.70, emoji: '🌾' },
-          { id: 3, name: 'Alcatra Bovina', mode: 'weight', qty: 1.620, price: 44.90, subtotal: 72.74, emoji: '🥩' },
-          { id: 4, name: 'Linguiça Toscana', mode: 'weight', qty: 1.150, price: 21.90, subtotal: 25.19, emoji: '🌭' },
-          { id: 5, name: 'Molho de Tomate', mode: 'unit', qty: 4, price: 2.19, subtotal: 8.76, emoji: '🥫' },
-          { id: 6, name: 'Cerveja Puro Malte Lata', mode: 'unit', qty: 12, price: 4.29, subtotal: 51.48, emoji: '🍺' },
-          { id: 7, name: 'Sabão em Pó 2kg', mode: 'unit', qty: 2, price: 26.50, subtotal: 53.00, emoji: '🧼' },
-          { id: 8, name: 'Detergente Limpol', mode: 'unit', qty: 4, price: 2.49, subtotal: 9.96, emoji: '🧴' },
-          { id: 9, name: 'Salsicha Hot Dog', mode: 'unit', qty: 2, price: 8.89, subtotal: 17.78, emoji: '🌭' }
-        ]
-      }
-    ];
-
-    /* =====================================================================
-       INITIALIZATION
-       ===================================================================== */
-    window.addEventListener('DOMContentLoaded', () => {
-      initTheme();
-      loadStorage();
-      setupParserListeners();
-      renderApp();
-      lucide.createIcons();
-    });
-
-    function initTheme() {
-      const savedTheme = localStorage.getItem(STORAGE_THEME);
-      if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-
-      document.getElementById('themeToggleBtn').addEventListener('click', () => {
-        const isDark = document.documentElement.classList.toggle('dark');
-        localStorage.setItem(STORAGE_THEME, isDark ? 'dark' : 'light');
-      });
-    }
-
-    function loadStorage() {
-      const savedCurrent = localStorage.getItem(STORAGE_CURRENT);
-      const savedHist = localStorage.getItem(STORAGE_HISTORY);
-
-      if (savedCurrent) {
-        try { currentPurchase = JSON.parse(savedCurrent); } catch(e) { currentPurchase = null; }
-      }
-
-      if (savedHist) {
-        try { purchaseHistory = JSON.parse(savedHist); } catch(e) { purchaseHistory = []; }
-      } else {
-        purchaseHistory = sampleHistory;
-        localStorage.setItem(STORAGE_HISTORY, JSON.stringify(purchaseHistory));
-      }
-    }
-
-    function saveCurrentToStorage() {
-      if (currentPurchase) {
-        localStorage.setItem(STORAGE_CURRENT, JSON.stringify(currentPurchase));
-      } else {
-        localStorage.removeItem(STORAGE_CURRENT);
-      }
-    }
-
-    function saveHistoryToStorage() {
-      localStorage.setItem(STORAGE_HISTORY, JSON.stringify(purchaseHistory));
-    }
-
-    /* =====================================================================
-       TEXT NORMALIZATION & ICON/EMOJI RESOLVER
-       ===================================================================== */
-    function normalizeText(text) {
-      if (!text) return '';
-      return text.toString()
-        .toLowerCase()
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .trim();
-    }
-
-    function matchItemIcon(itemName) {
-      const normalized = normalizeText(itemName);
-      
-      // Explicit priority for user requested sausages
-      if (/linguica|calabresa|salsicha|toscana|paio/.test(normalized)) {
-        return { emoji: '🌭', icon: 'sandwich', label: 'Embutidos' };
-      }
-
-      for (const entry of ITEM_CATALOG) {
-        for (const p of entry.patterns) {
-          const normPattern = normalizeText(p);
-          if (normalized.includes(normPattern)) {
-            return entry;
-          }
-        }
-      }
-
-      return { emoji: '🛍️', icon: 'shopping-cart', label: 'Geral' };
-    }
-
-    /* =====================================================================
-       HISTORICAL PRICE COMPARISON (Feature #3)
-       ===================================================================== */
-    function findPreviousPrice(productName) {
-      const targetNorm = normalizeText(productName);
-      if (!targetNorm) return null;
-
-      // Scan past completed purchases from newest to oldest
-      for (const purchase of purchaseHistory) {
-        if (!purchase.items) continue;
-        for (const item of purchase.items) {
-          const itemNorm = normalizeText(item.name);
-          // Check for high similarity or containment
-          if (itemNorm === targetNorm || itemNorm.includes(targetNorm) || targetNorm.includes(itemNorm)) {
-            return {
-              lastPrice: item.price,
-              marketName: purchase.marketName,
-              date: purchase.date,
-              mode: item.mode
-            };
-          }
-        }
-      }
-      return null;
-    }
-
-    /* =====================================================================
-       SMART NATURAL LANGUAGE PARSER (Feature #2)
-       ===================================================================== */
-    function parseInputText(rawText) {
-      if (!rawText || !rawText.trim()) {
-        return {
-          valid: false,
-          name: '',
-          qty: 1,
-          price: 0,
-          mode: 'unit',
-          subtotal: 0,
-          emoji: '🛒'
-        };
-      }
-
-      let text = rawText.trim();
-      let mode = 'unit';
-      let qty = 1;
-      let price = 0;
-      let name = '';
-
-      // Check if user specifically wrote 'kg', 'k', 'quilo' anywhere
-      const isWeight = /\b(kg|quilo|quilos|kilos|kilo|g)\b/i.test(text);
-      if (isWeight) {
-        mode = 'weight';
-        text = text.replace(/\b(kg|quilo|quilos|kilos|kilo)\b/gi, '').trim();
-      }
-
-      // Clean 'un', 'unid', 'unidades'
-      text = text.replace(/\b(un|und|unid|unidades|unidade)\b/gi, '').trim();
-
-      // Tokenize by spaces
-      const tokens = text.split(/\s+/);
-
-      // Check if first token is quantity or weight (e.g., "2", "1.450", "0,5")
-      let firstVal = parseNumericToken(tokens[0]);
-      let lastVal = parseNumericToken(tokens[tokens.length - 1]);
-
-      if (tokens.length >= 3 && firstVal !== null && lastVal !== null) {
-        // Pattern: [2] [arroz integral] [3.99]
-        qty = firstVal;
-        price = lastVal;
-        name = tokens.slice(1, tokens.length - 1).join(' ');
-        // If first token had decimals, likely weight
-        if (tokens[0].includes('.') || tokens[0].includes(',')) {
-          mode = 'weight';
-        }
-      } else if (tokens.length >= 2 && lastVal !== null) {
-        // Pattern: [leite integral] [4.50] -> Qty defaults to 1
-        qty = 1;
-        price = lastVal;
-        name = tokens.slice(0, tokens.length - 1).join(' ');
-      } else {
-        // Fallback or partial typing
-        name = text;
-        qty = 1;
-        price = 0;
-      }
-
-      name = name.replace(/^[\s,.-]+|[\s,.-]+$/g, '');
-      const itemInfo = matchItemIcon(name);
-
-      const subtotal = Math.round((qty * price) * 100) / 100;
-
-      return {
-        valid: (name.length > 0 && price > 0 && qty > 0),
-        name: capitalize(name || 'Novo produto'),
-        qty: qty,
-        price: price,
-        mode: mode,
-        subtotal: subtotal,
-        emoji: itemInfo.emoji,
-        icon: itemInfo.icon
-      };
-    }
-
-    function parseNumericToken(token) {
-      if (!token) return null;
-      // remove currency prefixes
-      let clean = token.replace(/^(r\$|\$)/i, '').trim();
-      // Remove trailing characters like 'kg', 'un', 'g' that might be attached
-      clean = clean.replace(/[a-zA-Z]+$/g, '');
-      // Replace comma with dot for standard JS float conversion
-      clean = clean.replace(',', '.');
-      const num = parseFloat(clean);
-      return (!isNaN(num) && num > 0) ? num : null;
-    }
-
-    function setupParserListeners() {
-      const input = document.getElementById('smartInput');
-      input.addEventListener('input', () => {
-        updateParserPreview(input.value);
-      });
-    }
-
-    function updateParserPreview(val) {
-      const parsed = parseInputText(val);
-
-      const previewBox = document.getElementById('parserPreviewBox');
-      const emojiEl = document.getElementById('previewEmoji');
-      const qtyModeEl = document.getElementById('previewQtyMode');
-      const nameEl = document.getElementById('previewName');
-      const compEl = document.getElementById('previewPriceComparison');
-      const subtotalEl = document.getElementById('previewSubtotal');
-
-      if (!val.trim()) {
-        emojiEl.textContent = '🛒';
-        qtyModeEl.textContent = '1 un';
-        nameEl.textContent = 'Comece a digitar...';
-        compEl.textContent = 'Preço: R$ 0,00';
-        subtotalEl.textContent = 'R$ 0,00';
-        previewBox.className = "p-3 bg-slate-100 dark:bg-slate-900/60 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 flex items-center justify-between text-xs transition";
-        return;
-      }
-
-      emojiEl.textContent = parsed.emoji;
-      nameEl.textContent = parsed.name;
-      qtyModeEl.textContent = parsed.mode === 'weight' ? `${parsed.qty.toFixed(3)} kg` : `${parsed.qty} un`;
-      subtotalEl.textContent = formatCurrency(parsed.subtotal);
-
-      // Check historical comparison
-      const historyMatch = findPreviousPrice(parsed.name);
-      if (historyMatch && parsed.price > 0) {
-        const diff = parsed.price - historyMatch.lastPrice;
-        const formattedLast = formatCurrency(historyMatch.lastPrice);
+    <!-- TELA DE COMPRA ATIVA -->
+    <main id="view-compra" class="flex-1 flex flex-col hidden max-w-md mx-auto w-full relative">
         
-        if (Math.abs(diff) < 0.02) {
-          compEl.innerHTML = `<span class="text-slate-500 font-medium">Mesmo preço da última compra (${formattedLast})</span>`;
-        } else if (diff > 0) {
-          compEl.innerHTML = `<span class="text-rose-500 font-bold">▲ +${formatCurrency(diff)} mais caro</span> vs última (${formattedLast})`;
-        } else {
-          compEl.innerHTML = `<span class="text-emerald-500 font-bold">▼ -${formatCurrency(Math.abs(diff))} mais barato!</span> vs última (${formattedLast})`;
-        }
-      } else if (parsed.price > 0) {
-        compEl.innerHTML = `<span class="text-slate-500">Unitário: ${formatCurrency(parsed.price)} (Item novo no histórico)</span>`;
-      } else {
-        compEl.textContent = 'Digite o valor do produto...';
-      }
+        <!-- Painel de Orçamento -->
+        <div class="p-4 shrink-0 z-10 bg-gray-50">
+            <div class="bg-gray-900 rounded-2xl p-4 shadow-lg text-white">
+                <div class="flex justify-between items-center mb-4">
+                    <div class="flex items-center gap-2">
+                        <div class="w-2 h-2 rounded-full bg-teal-400 animate-pulse"></div>
+                        <span id="card-local" class="text-xs font-bold tracking-wider text-gray-300 uppercase">Mercado</span>
+                    </div>
+                    <span id="badge-teto" class="text-xs font-bold px-2 py-1 rounded-md bg-teal-500/20 text-teal-400 border border-teal-500/30">Seguro</span>
+                </div>
+                
+                <div class="flex justify-between items-end mb-3">
+                    <div>
+                        <p class="text-xs text-gray-400 font-medium mb-1">TOTAL ACUMULADO</p>
+                        <p class="text-3xl font-black tracking-tight" id="lbl-total">R$ 0,00</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs text-gray-400 font-medium mb-1">SALDO DISPONÍVEL</p>
+                        <p class="text-lg font-bold text-teal-400" id="lbl-saldo">R$ 0,00</p>
+                    </div>
+                </div>
 
-      if (parsed.valid) {
-        previewBox.className = "p-3 bg-emerald-50/70 dark:bg-emerald-950/30 rounded-2xl border border-emerald-300 dark:border-emerald-800 flex items-center justify-between text-xs transition";
-      } else {
-        previewBox.className = "p-3 bg-slate-100 dark:bg-slate-900/60 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 flex items-center justify-between text-xs transition";
-      }
-    }
+                <!-- Barra de Progresso -->
+                <div class="h-2 w-full bg-gray-700 rounded-full overflow-hidden">
+                    <div id="bar-teto" class="h-full bg-teal-400 transition-all duration-500 ease-out" style="width: 0%"></div>
+                </div>
+                <div class="flex justify-between mt-1 text-[10px] text-gray-500">
+                    <span>R$ 0,00</span>
+                    <span id="lbl-teto-meta">Teto: R$ 0,00</span>
+                </div>
+            </div>
+        </div>
 
-    function handleSmartSubmit(event) {
-      event.preventDefault();
-      if (!currentPurchase) {
-        showToast('Inicie uma compra primeiro.');
-        return;
-      }
+        <!-- Adição Rápida Inteligente -->
+        <div class="px-4 pb-2 shrink-0">
+            <div class="bg-white border border-gray-100 rounded-2xl shadow-sm p-3 relative">
+                <div class="flex items-center gap-2 mb-2 text-xs font-bold text-teal-700">
+                    <i data-lucide="sparkles" class="w-4 h-4"></i> ADIÇÃO RÁPIDA
+                </div>
+                <div class="flex gap-2 relative">
+                    <input type="text" id="input-smart" onkeyup="analisarInput(event)" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-teal-500 text-sm transition" placeholder="Ex: 2 arroz 4,50 ou 1.45 carne 42,90">
+                    <button onclick="adicionarItem()" class="bg-teal-600 text-white px-4 rounded-xl font-bold active:scale-95 transition">
+                        <i data-lucide="plus"></i>
+                    </button>
+                </div>
+                
+                <!-- Box de Pré-visualização Instantânea -->
+                <div id="preview-box" class="mt-2 bg-gray-50 rounded-xl p-2 border border-gray-100 flex items-center justify-between hidden">
+                    <div class="flex items-center gap-3">
+                        <div id="preview-icon" class="text-2xl">🛒</div>
+                        <div>
+                            <p class="text-sm font-bold text-gray-800"><span id="preview-qtd" class="text-teal-600 text-xs mr-1"></span> <span id="preview-nome">...</span></p>
+                            <p id="preview-preco" class="text-[10px] text-gray-500">Preço: R$ 0,00</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-[10px] text-gray-400 uppercase font-bold">Total</p>
+                        <p id="preview-subtotal" class="text-sm font-bold text-gray-900">R$ 0,00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-      const input = document.getElementById('smartInput');
-      const parsed = parseInputText(input.value);
+        <!-- Cabeçalho da Lista -->
+        <div class="px-4 py-2 bg-gray-100 flex justify-between items-center shrink-0 border-y border-gray-200 mt-2">
+            <span class="text-xs font-bold text-gray-500">CARRINHO</span>
+            <span id="lbl-cart-count" class="bg-teal-100 text-teal-700 text-xs px-2 py-0.5 rounded-full font-bold">0 itens</span>
+        </div>
 
-      if (!parsed.valid || parsed.price <= 0) {
-        showToast('Formato não reconhecido. Ex: "2 arroz 4,50"');
-        return;
-      }
+        <!-- LISTA DE PRODUTOS -->
+        <ul id="lista-carrinho" class="flex-1 overflow-y-auto min-h-[300px] p-4 space-y-3 bg-gray-50 pb-36">
+            <div id="empty-state" class="text-center text-gray-400 mt-10">
+                <i data-lucide="shopping-cart" class="w-12 h-12 mx-auto mb-2 opacity-50"></i>
+                <p class="text-sm">O seu carrinho está vazio.</p>
+                <p class="text-xs mt-2">Escreva acima para adicionar produtos.</p>
+            </div>
+        </ul>
 
-      const newItem = {
-        id: Date.now(),
-        name: parsed.name,
-        mode: parsed.mode,
-        qty: parsed.qty,
-        price: parsed.price,
-        subtotal: parsed.subtotal,
-        emoji: parsed.emoji
-      };
+        <!-- Botões de Ação Fixos no Rodapé -->
+        <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-gray-50 via-gray-50 to-transparent pt-10">
+            <button onclick="finalizarCompra()" class="w-full bg-gray-900 text-white font-bold text-lg py-3.5 rounded-xl shadow-xl flex items-center justify-center gap-2 active:scale-95 transition">
+                <i data-lucide="check-circle-2"></i> Finalizar Compra
+            </button>
+            <button onclick="abrirModalDescarte()" class="w-full text-red-500 font-bold text-sm py-3 mt-1 flex items-center justify-center gap-2 active:scale-95 transition">
+                <i data-lucide="trash-2" class="w-4 h-4"></i> Descartar esta compra
+            </button>
+        </div>
+    </main>
 
-      currentPurchase.items.unshift(newItem);
-      saveCurrentToStorage();
+    <!-- TELA DE HISTÓRICO -->
+    <main id="view-historico" class="flex-1 overflow-y-auto p-4 hidden max-w-md mx-auto w-full">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold text-gray-800">Suas Compras</h2>
+            <button onclick="exportarCSV()" class="text-xs bg-teal-100 text-teal-700 px-3 py-1.5 rounded-lg font-bold flex items-center gap-1">
+                <i data-lucide="download" class="w-3 h-3"></i> CSV
+            </button>
+        </div>
+        <div id="lista-historico" class="space-y-3 pb-10"></div>
+    </main>
 
-      input.value = '';
-      updateParserPreview('');
-      showToast(`${newItem.emoji} "${newItem.name}" adicionado!`);
-      renderActivePurchase();
-      input.focus();
-    }
+    <!-- MODAL CUSTOMIZADO DE DESCARTE -->
+    <div id="modal-descarte" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center px-4 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl p-6 max-w-sm w-full shadow-2xl scale-95 transform transition-all">
+            <div class="w-12 h-12 rounded-full bg-red-100 text-red-500 flex items-center justify-center mb-4 mx-auto">
+                <i data-lucide="alert-triangle"></i>
+            </div>
+            <h3 class="text-lg font-bold text-center text-gray-900 mb-2">Descartar rascunho?</h3>
+            <p class="text-sm text-gray-500 text-center mb-6">Todos os itens adicionados nesta sessão serão perdidos. Esta ação não pode ser revertida.</p>
+            <div class="flex gap-3">
+                <button onclick="fecharModalDescarte()" class="flex-1 py-3 rounded-xl font-bold text-gray-600 bg-gray-100 active:bg-gray-200 transition">Cancelar</button>
+                <button onclick="confirmarDescarte()" class="flex-1 py-3 rounded-xl font-bold text-white bg-red-500 shadow-lg shadow-red-200 active:scale-95 transition">Sim, descartar</button>
+            </div>
+        </div>
+    </div>
 
-    /* =====================================================================
-       PURCHASE ACTIONS (Start, Delete, Finish, Cancel)
-       ===================================================================== */
-    function handleStartPurchase(event) {
-      event.preventDefault();
-      const marketName = document.getElementById('setupMarketName').value.trim();
-      const budgetLimit = parseFloat(document.getElementById('setupBudgetLimit').value);
-
-      if (!marketName || isNaN(budgetLimit) || budgetLimit <= 0) {
-        showToast('Preencha o mercado e um teto válido.');
-        return;
-      }
-
-      currentPurchase = {
-        id: 'pur-' + Date.now(),
-        marketName: marketName,
-        budgetLimit: budgetLimit,
-        startedAt: new Date().toISOString(),
-        items: []
-      };
-
-      saveCurrentToStorage();
-      document.getElementById('startPurchaseForm').reset();
-      showToast('Compra iniciada com sucesso!');
-      renderApp();
-    }
-
-    function handleDeleteItem(itemId) {
-      if (!currentPurchase) return;
-      currentPurchase.items = currentPurchase.items.filter(it => it.id !== itemId);
-      saveCurrentToStorage();
-      renderActivePurchase();
-      showToast('Item removido.');
-    }
-
-    function handleFinishPurchase() {
-      if (!currentPurchase) return;
-      if (currentPurchase.items.length === 0) {
-        showToast('Adicione ao menos 1 item antes de finalizar.');
-        return;
-      }
-
-      const totalSpent = calculateCurrentTotal();
-      const completed = {
-        id: currentPurchase.id,
-        marketName: currentPurchase.marketName,
-        budgetLimit: currentPurchase.budgetLimit,
-        totalSpent: totalSpent,
-        date: new Date().toISOString(),
-        items: [...currentPurchase.items]
-      };
-
-      purchaseHistory.unshift(completed);
-      saveHistoryToStorage();
-
-      currentPurchase = null;
-      saveCurrentToStorage();
-
-      showToast('Compra finalizada e salva!');
-      switchView('history');
-    }
-
-    /* =====================================================================
-       DISCARD MODAL & HANDLERS (Custom modal, fully responsive)
-       ===================================================================== */
-    function openDiscardModal(e) {
-      if (e) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-      const modal = document.getElementById('discardModal');
-      if (modal) {
-        modal.classList.remove('hidden');
+    <!-- SCRIPTS -->
+    <script>
         lucide.createIcons();
-      }
-    }
 
-    function closeDiscardModal() {
-      const modal = document.getElementById('discardModal');
-      if (modal) {
-        modal.classList.add('hidden');
-      }
-    }
+        let compraAtual = { local: '', teto: 0, itens: [] };
+        let historico = JSON.parse(localStorage.getItem('marketbuy_historico')) || [];
+        let previewItem = null;
 
-    function confirmDiscardPurchase() {
-      closeDiscardModal();
-      currentPurchase = null;
-      saveCurrentToStorage();
+        const dictIcones = {
+            "🥩": ["picanha", "alcatra", "contra file", "patinho", "acem", "bife", "carne", "figado", "musculo"],
+            "🍗": ["frango", "coxa", "tulipa", "moela", "peito"],
+            "🍖": ["porco", "suino", "lombo", "costelinha", "pernil"],
+            "🌭": ["salsicha", "linguica", "calabresa", "toscana", "hot dog"],
+            "🥓": ["bacon", "panceta", "salame", "presunto", "mortadela", "copa", "peito de peru"],
+            "🐟": ["peixe", "salmao", "tilapia", "bacalhau", "atum", "sardinha", "camarao"],
+            "🍎": ["maca", "banana", "mamao", "melancia", "morango", "tomate"],
+            "🍋": ["limao", "laranja", "tangerina", "citrico"],
+            "🥬": ["alface", "couve", "rucula", "repolho", "cheiro verde"],
+            "🥔": ["batata", "cenoura", "cebola", "alho", "mandioca"],
+            "🥛": ["leite", "creme de leite", "iogurte"],
+            "🧀": ["queijo", "mussarela", "prato", "requeijao", "parmesao"],
+            "🧈": ["manteiga", "margarina"],
+            "🍞": ["pao", "bisnaga", "torrada"],
+            "🌾": ["arroz", "aveia", "farinha", "milho"],
+            "🫘": ["feijao", "lentilha", "grao", "soja"],
+            "🍝": ["macarrao", "massa", "espaguete", "lasanha"],
+            "🥫": ["molho", "extrato", "lata", "conserva", "azeitona"],
+            "🫗": ["oleo", "azeite", "vinagre"],
+            "🧂": ["sal", "acucar", "adocante"],
+            "☕": ["cafe", "cha", "achocolatado"],
+            "🥤": ["refrigerante", "suco", "agua"],
+            "🍺": ["cerveja", "chopp", "vinho"],
+            "🧼": ["sabao", "sabonete", "detergente", "amaciante", "esponja"],
+            "🧻": ["papel", "lenco", "absorvente"]
+        };
 
-      // Clear quick inputs
-      const smartInp = document.getElementById('smartInput');
-      if (smartInp) smartInp.value = '';
-      updateParserPreview('');
-
-      showToast('Compra descartada com sucesso.');
-      renderApp();
-    }
-
-    function handleClearHistory() {
-      if (purchaseHistory.length === 0) return;
-      if (!confirm('Deseja apagar todo o histórico de compras anteriores?')) return;
-      purchaseHistory = [];
-      saveHistoryToStorage();
-      renderHistoryList();
-      showToast('Histórico apagado.');
-    }
-
-    /* =====================================================================
-       CSV EXPORT (Feature #7)
-       ===================================================================== */
-    function exportHistoryCSV() {
-      if (purchaseHistory.length === 0) {
-        showToast('Histórico vazio para exportar.');
-        return;
-      }
-
-      let csv = 'Data;Mercado;Teto (R$);Total Gasto (R$);Item;Quantidade;Preço Unitário (R$);Subtotal (R$)\n';
-
-      purchaseHistory.forEach(pur => {
-        const dateFormatted = new Date(pur.date).toLocaleDateString('pt-BR');
-        pur.items.forEach(it => {
-          csv += `"${dateFormatted}";"${pur.marketName}";"${pur.budgetLimit.toFixed(2)}";"${pur.totalSpent.toFixed(2)}";"${it.name}";"${it.qty}";"${it.price.toFixed(2)}";"${it.subtotal.toFixed(2)}"\n`;
-        });
-      });
-
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.setAttribute('href', url);
-      link.setAttribute('download', `marketbuy_historico_${Date.now()}.csv`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      showToast('Histórico exportado em CSV!');
-    }
-
-    /* =====================================================================
-       VIEW NAVIGATION & RENDERING
-       ===================================================================== */
-    function switchView(tab) {
-      const viewSetup = document.getElementById('viewSetup');
-      const viewActive = document.getElementById('viewActive');
-      const viewHistory = document.getElementById('viewHistory');
-
-      const tabActiveBtn = document.getElementById('tabActiveBtn');
-      const tabHistoryBtn = document.getElementById('tabHistoryBtn');
-
-      if (tab === 'history') {
-        viewSetup.classList.add('hidden');
-        viewActive.classList.add('hidden');
-        viewHistory.classList.remove('hidden');
-
-        tabHistoryBtn.className = "px-3 py-1.5 rounded-lg transition-all shadow-sm bg-white dark:bg-slate-700 text-slate-900 dark:text-white font-bold";
-        tabActiveBtn.className = "px-3 py-1.5 rounded-lg transition-all text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 font-semibold";
-        
-        renderHistoryList();
-      } else {
-        viewHistory.classList.add('hidden');
-        tabActiveBtn.className = "px-3 py-1.5 rounded-lg transition-all shadow-sm bg-white dark:bg-slate-700 text-slate-900 dark:text-white font-bold";
-        tabHistoryBtn.className = "px-3 py-1.5 rounded-lg transition-all text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 font-semibold";
-
-        if (currentPurchase) {
-          viewSetup.classList.add('hidden');
-          viewActive.classList.remove('hidden');
-          renderActivePurchase();
-        } else {
-          viewActive.classList.add('hidden');
-          viewSetup.classList.remove('hidden');
-        }
-      }
-      lucide.createIcons();
-    }
-
-    function renderApp() {
-      if (currentPurchase) {
-        document.getElementById('headerStatusSubtitle').textContent = currentPurchase.marketName;
-        switchView('active');
-      } else {
-        document.getElementById('headerStatusSubtitle').textContent = 'Pronto para comprar';
-        switchView('active');
-      }
-    }
-
-    function calculateCurrentTotal() {
-      if (!currentPurchase || !currentPurchase.items) return 0;
-      return currentPurchase.items.reduce((acc, it) => acc + (it.subtotal || 0), 0);
-    }
-
-    function renderActivePurchase() {
-      if (!currentPurchase) return;
-
-      const total = calculateCurrentTotal();
-      const limit = currentPurchase.budgetLimit;
-      const remaining = limit - total;
-      const percent = limit > 0 ? (total / limit) * 100 : 0;
-
-      // Update Texts
-      document.getElementById('activeStoreBadge').textContent = currentPurchase.marketName;
-      document.getElementById('headerStatusSubtitle').textContent = currentPurchase.marketName;
-      document.getElementById('totalSpentText').textContent = formatCurrency(total);
-      document.getElementById('targetBudgetSpan').textContent = `Teto: ${formatCurrency(limit)}`;
-      document.getElementById('cartSumPreview').textContent = `Total: ${formatCurrency(total)}`;
-      document.getElementById('cartCountBadge').textContent = currentPurchase.items.length;
-
-      const remainingEl = document.getElementById('remainingBudgetText');
-      const progressBar = document.getElementById('budgetProgressBar');
-      const percentBadge = document.getElementById('budgetPercentLabel');
-      const alertBanner = document.getElementById('alertBanner');
-      const alertBannerMsg = document.getElementById('alertBannerMsg');
-      const budgetGlow = document.getElementById('budgetGlow');
-
-      percentBadge.textContent = `${Math.round(percent)}% do teto`;
-
-      // Status Visuals
-      if (percent < 75) {
-        remainingEl.textContent = formatCurrency(remaining);
-        remainingEl.className = "text-lg font-black text-emerald-400";
-        progressBar.style.width = `${Math.min(percent, 100)}%`;
-        progressBar.className = "h-full rounded-full transition-all duration-300 bg-emerald-500";
-        percentBadge.className = "text-[11px] font-black px-2.5 py-1 rounded-full bg-emerald-950/80 text-emerald-400 border border-emerald-800";
-        budgetGlow.className = "absolute -right-10 -bottom-10 w-48 h-48 rounded-full bg-emerald-500/15 blur-2xl pointer-events-none transition-colors duration-500";
-        alertBanner.classList.add('hidden');
-      } else if (percent >= 75 && percent <= 95) {
-        remainingEl.textContent = formatCurrency(remaining);
-        remainingEl.className = "text-lg font-black text-amber-400";
-        progressBar.style.width = `${Math.min(percent, 100)}%`;
-        progressBar.className = "h-full rounded-full transition-all duration-300 bg-amber-400";
-        percentBadge.className = "text-[11px] font-black px-2.5 py-1 rounded-full bg-amber-950/80 text-amber-300 border border-amber-800";
-        budgetGlow.className = "absolute -right-10 -bottom-10 w-48 h-48 rounded-full bg-amber-500/20 blur-2xl pointer-events-none transition-colors duration-500";
-        alertBanner.classList.remove('hidden');
-        alertBanner.className = "mt-3 pt-2.5 border-t border-amber-500/30 flex items-center gap-2 text-xs font-bold text-amber-300";
-        alertBannerMsg.textContent = "Atenção: Você atingiu mais de 75% do teto estipulado!";
-      } else {
-        const isExceeded = remaining < 0;
-        remainingEl.textContent = isExceeded ? `- ${formatCurrency(Math.abs(remaining))}` : formatCurrency(remaining);
-        remainingEl.className = "text-lg font-black text-rose-400";
-        progressBar.style.width = '100%';
-        progressBar.className = "h-full rounded-full transition-all duration-300 bg-rose-500 pulse-danger";
-        percentBadge.className = "text-[11px] font-black px-2.5 py-1 rounded-full bg-rose-950/90 text-rose-300 border border-rose-800 animate-pulse";
-        budgetGlow.className = "absolute -right-10 -bottom-10 w-48 h-48 rounded-full bg-rose-600/35 blur-2xl pointer-events-none transition-colors duration-500";
-        alertBanner.classList.remove('hidden');
-        alertBanner.className = "mt-3 pt-2.5 border-t border-rose-500/30 flex items-center gap-2 text-xs font-black text-rose-400";
-        alertBannerMsg.textContent = isExceeded 
-          ? `Alerta: Teto estourado em ${formatCurrency(Math.abs(remaining))}!` 
-          : "Limite quase esgotado! Menos de 5% restante.";
-      }
-
-      // Render Cart List
-      const listEl = document.getElementById('cartItemsList');
-      const emptyEl = document.getElementById('cartEmptyState');
-      listEl.innerHTML = '';
-
-      if (currentPurchase.items.length === 0) {
-        emptyEl.classList.remove('hidden');
-      } else {
-        emptyEl.classList.add('hidden');
-        currentPurchase.items.forEach(item => {
-          const qtyText = item.mode === 'weight' ? `${item.qty.toFixed(3)} kg` : `${item.qty} un`;
-          const priceDetail = item.mode === 'weight' ? `${formatCurrency(item.price)}/kg` : `${formatCurrency(item.price)} cd`;
-
-          // Historical comparison tag
-          const prevInfo = findPreviousPrice(item.name);
-          let comparisonTag = '';
-          if (prevInfo) {
-            const diff = item.price - prevInfo.lastPrice;
-            if (diff > 0.02) {
-              comparisonTag = `<span class="inline-flex items-center text-[10px] font-bold text-rose-500 bg-rose-50 dark:bg-rose-950/40 px-1.5 py-0.5 rounded ml-1">▲ +${formatCurrency(diff)}</span>`;
-            } else if (diff < -0.02) {
-              comparisonTag = `<span class="inline-flex items-center text-[10px] font-bold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 px-1.5 py-0.5 rounded ml-1">▼ -${formatCurrency(Math.abs(diff))}</span>`;
+        function getIconeProduto(nome) {
+            const nom = nome.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            for (const [icone, palavras] of Object.entries(dictIcones)) {
+                if (palavras.some(p => nom.includes(p))) return icone;
             }
-          }
-
-          const li = document.createElement('li');
-          li.className = "flex items-center justify-between p-3.5 bg-white dark:bg-slate-800/80 rounded-2xl border border-slate-200/70 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition shadow-xs";
-          li.innerHTML = `
-            <div class="flex items-center gap-3 min-w-0">
-              <span class="text-2xl shrink-0 p-1 rounded-xl bg-slate-50 dark:bg-slate-700/60">${item.emoji || '🛍️'}</span>
-              <div class="min-w-0">
-                <div class="flex items-center flex-wrap">
-                  <span class="font-bold text-sm text-slate-800 dark:text-slate-100 truncate">${escapeHTML(item.name)}</span>
-                  ${comparisonTag}
-                </div>
-                <p class="text-[11px] text-slate-400 font-medium mt-0.5">${qtyText} × ${priceDetail}</p>
-              </div>
-            </div>
-            <div class="flex items-center gap-2 shrink-0">
-              <span class="font-black text-sm text-slate-900 dark:text-white">${formatCurrency(item.subtotal)}</span>
-              <button onclick="handleDeleteItem(${item.id})" title="Remover produto" class="p-1.5 text-slate-400 hover:text-rose-500 transition rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700">
-                <i data-lucide="trash-2" class="w-4 h-4"></i>
-              </button>
-            </div>
-          `;
-          listEl.appendChild(li);
-        });
-      }
-      lucide.createIcons();
-    }
-
-    function renderHistoryList() {
-      const container = document.getElementById('historyListContainer');
-      const emptyState = document.getElementById('historyEmptyState');
-      container.innerHTML = '';
-
-      if (purchaseHistory.length === 0) {
-        emptyState.classList.remove('hidden');
-        return;
-      }
-
-      emptyState.classList.add('hidden');
-
-      purchaseHistory.forEach((record) => {
-        const dateObj = new Date(record.date);
-        const formattedDate = dateObj.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
-        const formattedTime = dateObj.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-        
-        const isOverBudget = record.totalSpent > record.budgetLimit;
-        const diff = record.budgetLimit - record.totalSpent;
-
-        const card = document.createElement('div');
-        card.className = "bg-white dark:bg-slate-800/80 rounded-3xl border border-slate-200/80 dark:border-slate-800 p-4 shadow-sm transition hover:shadow-md";
-
-        let itemsAccordionHTML = '';
-        if (record.items && record.items.length > 0) {
-          itemsAccordionHTML = record.items.map(it => `
-            <div class="flex items-center justify-between py-1.5 text-xs border-b border-slate-100 dark:border-slate-700/50 last:border-none">
-              <div class="flex items-center gap-2">
-                <span>${it.emoji || '🛍️'}</span>
-                <div>
-                  <span class="font-semibold text-slate-700 dark:text-slate-300">${escapeHTML(it.name)}</span>
-                  <span class="text-[11px] text-slate-400 ml-1">(${it.mode === 'weight' ? it.qty.toFixed(3) + ' kg' : it.qty + ' un'} × ${formatCurrency(it.price)})</span>
-                </div>
-              </div>
-              <span class="font-bold text-slate-800 dark:text-slate-200">${formatCurrency(it.subtotal)}</span>
-            </div>
-          `).join('');
+            return "🛒";
         }
 
-        card.innerHTML = `
-          <div class="flex items-start justify-between">
-            <div class="flex items-center gap-2.5">
-              <div class="w-10 h-10 rounded-2xl ${isOverBudget ? 'bg-rose-50 dark:bg-rose-950/40 text-rose-500' : 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-500'} flex items-center justify-center font-bold">
-                <i data-lucide="${isOverBudget ? 'alert-triangle' : 'check'}" class="w-5 h-5"></i>
-              </div>
-              <div>
-                <h4 class="font-extrabold text-sm text-slate-900 dark:text-white leading-tight">${escapeHTML(record.marketName)}</h4>
-                <p class="text-[11px] text-slate-400 font-medium">${formattedDate} às ${formattedTime}</p>
-              </div>
-            </div>
-            <div class="text-right">
-              <p class="text-base font-black text-slate-900 dark:text-white">${formatCurrency(record.totalSpent)}</p>
-              <p class="text-[11px] font-bold ${isOverBudget ? 'text-rose-500' : 'text-emerald-500'}">
-                ${isOverBudget ? `Estourou em +${formatCurrency(Math.abs(diff))}` : `Economizou ${formatCurrency(diff)}`}
-              </p>
-            </div>
-          </div>
+        function toggleView(view) {
+            document.getElementById('btn-tab-compras').className = view === 'compras' ? "text-sm font-semibold text-teal-700 border-b-2 border-teal-600 pb-1" : "text-sm font-semibold text-gray-400 pb-1";
+            document.getElementById('btn-tab-historico').className = view === 'historico' ? "text-sm font-semibold text-teal-700 border-b-2 border-teal-600 pb-1" : "text-sm font-semibold text-gray-400 pb-1";
+            
+            if(view === 'historico') {
+                document.getElementById('view-setup').classList.add('hidden');
+                document.getElementById('view-compra').classList.add('hidden');
+                document.getElementById('view-historico').classList.remove('hidden');
+                renderHistorico();
+            } else {
+                document.getElementById('view-historico').classList.add('hidden');
+                checkSessaoAtiva();
+            }
+        }
 
-          <div class="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-700/70 flex items-center justify-between text-xs">
-            <span class="text-slate-500 dark:text-slate-400 font-medium">Teto: <strong>${formatCurrency(record.budgetLimit)}</strong></span>
-            <button onclick="toggleHistoryDetails('${record.id}')" class="text-emerald-600 dark:text-emerald-400 font-bold hover:underline flex items-center gap-1">
-              <span>${record.items?.length || 0} produtos</span>
-              <i data-lucide="chevron-down" id="arrow-${record.id}" class="w-3.5 h-3.5 transition-transform duration-200"></i>
-            </button>
-          </div>
+        function checkSessaoAtiva() {
+            const sessaoSalva = localStorage.getItem('marketbuy_current');
+            if (sessaoSalva) {
+                compraAtual = JSON.parse(sessaoSalva);
+                document.getElementById('view-setup').classList.add('hidden');
+                document.getElementById('view-compra').classList.remove('hidden');
+                document.getElementById('view-compra').classList.add('flex');
+                document.getElementById('header-local').innerText = compraAtual.local;
+                document.getElementById('card-local').innerText = compraAtual.local;
+                document.getElementById('lbl-teto-meta').innerText = `Teto: R$ ${compraAtual.teto.toFixed(2).replace('.',',')}`;
+                renderCarrinho();
+            } else {
+                document.getElementById('view-setup').classList.remove('hidden');
+                document.getElementById('view-compra').classList.add('hidden');
+                document.getElementById('view-compra').classList.remove('flex');
+                document.getElementById('header-local').innerText = "Novo Carrinho";
+            }
+        }
 
-          <!-- Collapsible details -->
-          <div id="details-${record.id}" class="hidden mt-3 pt-2 border-t border-slate-100 dark:border-slate-700/60 bg-slate-50/70 dark:bg-slate-900/50 -mx-4 -mb-4 p-4 rounded-b-3xl">
-            <p class="text-[11px] font-black uppercase tracking-wider text-slate-400 mb-2">Lista da Nota:</p>
-            <div class="space-y-1">
-              ${itemsAccordionHTML || '<p class="text-xs text-slate-400">Nenhum detalhe listado.</p>'}
-            </div>
-          </div>
-        `;
+        function iniciarCompra() {
+            const local = document.getElementById('setup-local').value.trim() || 'Supermercado';
+            const teto = parseFloat(document.getElementById('setup-teto').value) || 0;
+            if(teto <= 0) { alert("Introduza um teto de gastos válido."); return; }
 
-        container.appendChild(card);
-      });
-      lucide.createIcons();
-    }
+            compraAtual = { id: Date.now(), data: new Date().toISOString(), local, teto, itens: [] };
+            salvarSessao();
+            checkSessaoAtiva();
+        }
 
-    function toggleHistoryDetails(id) {
-      const detailsEl = document.getElementById(`details-${id}`);
-      const arrowEl = document.getElementById(`arrow-${id}`);
-      if (!detailsEl) return;
+        function analisarInput(e) {
+            const rawText = e.target.value.trim().toLowerCase();
+            const text = rawText.replace(',', '.');
+            const prevBox = document.getElementById('preview-box');
+            
+            if(text.length < 3) {
+                prevBox.classList.add('hidden');
+                previewItem = null;
+                return;
+            }
 
-      const isHidden = detailsEl.classList.toggle('hidden');
-      if (arrowEl) {
-        arrowEl.style.transform = isHidden ? 'rotate(0deg)' : 'rotate(180deg)';
-      }
-    }
+            const regexCompleto = /^([\d.]+)\s+(.+?)\s+([\d.]+)$/;
+            const regexInvertido = /^(.+?)\s+([\d.]+)\s+([\d.]+)$/;
+            const regexSemQtd = /^(.+?)\s+([\d.]+)$/;
 
-    /* =====================================================================
-       UTILITY HELPERS
-       ===================================================================== */
-    function formatCurrency(val) {
-      return (val || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-    }
+            let qtd = 1, nome = "", preco = 0;
 
-    function capitalize(str) {
-      if (!str) return '';
-      return str.charAt(0).toUpperCase() + str.slice(1);
-    }
+            let match = text.match(regexCompleto);
+            if(match) {
+                qtd = parseFloat(match[1]); nome = match[2]; preco = parseFloat(match[3]);
+            } else {
+                match = text.match(regexInvertido);
+                if(match && !isNaN(match[2])) {
+                    nome = match[1]; qtd = parseFloat(match[2]); preco = parseFloat(match[3]);
+                } else {
+                    match = text.match(regexSemQtd);
+                    if(match) { nome = match[1]; preco = parseFloat(match[2]); }
+                }
+            }
 
-    function escapeHTML(str) {
-      if (!str) return '';
-      return str.replace(/[&<>'"]/g, 
-        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
-      );
-    }
+            nome = nome.replace(/(un|kg|g|litro)$/i, "").trim();
 
-    let toastTimer;
-    function showToast(msg) {
-      const toast = document.getElementById('toastNotification');
-      const toastMsg = document.getElementById('toastMessage');
-      toastMsg.textContent = msg;
-      toast.classList.remove('opacity-0');
-      toast.classList.add('opacity-100');
+            if (nome && preco > 0) {
+                const isKg = qtd % 1 !== 0 || rawText.includes('kg');
+                const subtotal = qtd * preco;
+                const icone = getIconeProduto(nome);
+                
+                previewItem = {
+                    id: Date.now(), nome, qtd, preco, subtotal, isKg, icone,
+                    variacao: checarHistoricoPreco(nome, preco)
+                };
 
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => {
-        toast.classList.remove('opacity-100');
-        toast.classList.add('opacity-0');
-      }, 2500);
-    }
-  </script>
+                document.getElementById('preview-icon').innerText = icone;
+                document.getElementById('preview-qtd').innerText = `${isKg ? qtd.toFixed(3)+'kg' : qtd+'un'}`;
+                document.getElementById('preview-nome').innerText = nome.toUpperCase();
+                document.getElementById('preview-preco').innerText = `R$ ${preco.toFixed(2).replace('.',',')} ${isKg?'/kg':'cada'}`;
+                document.getElementById('preview-subtotal').innerText = `R$ ${subtotal.toFixed(2).replace('.',',')}`;
+                
+                prevBox.classList.remove('hidden');
+
+                if (e.key === 'Enter') adicionarItem();
+            } else {
+                prevBox.classList.add('hidden');
+                previewItem = null;
+            }
+        }
+
+        function adicionarItem() {
+            if(!previewItem) return;
+            compraAtual.itens.unshift(previewItem);
+            document.getElementById('input-smart').value = '';
+            document.getElementById('preview-box').classList.add('hidden');
+            previewItem = null;
+            salvarSessao();
+            renderCarrinho();
+        }
+
+        function removerItem(id) {
+            compraAtual.itens = compraAtual.itens.filter(i => i.id !== id);
+            salvarSessao();
+            renderCarrinho();
+        }
+
+        function checarHistoricoPreco(nome, precoAtual) {
+            const nomeNorm = nome.toLowerCase().trim();
+            for(let i = 0; i < historico.length; i++) {
+                const itemAnterior = historico[i].itens.find(it => it.nome.toLowerCase().trim() === nomeNorm);
+                if(itemAnterior) {
+                    const diff = precoAtual - itemAnterior.preco;
+                    if(Math.abs(diff) < 0.05) return null;
+                    return diff > 0 
+                        ? `<span class="text-[10px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded ml-2">▲ +R$${diff.toFixed(2)}</span>`
+                        : `<span class="text-[10px] bg-green-100 text-green-700 px-1.5 py-0.5 rounded ml-2">▼ -R$${Math.abs(diff).toFixed(2)}</span>`;
+                }
+            }
+            return `<span class="text-[10px] bg-blue-100 text-blue-600 px-1.5 py-0.5 rounded ml-2">Novo</span>`;
+        }
+
+        function renderCarrinho() {
+            const lista = document.getElementById('lista-carrinho');
+            lista.innerHTML = '';
+            
+            let total = 0;
+            
+            if(compraAtual.itens.length === 0) {
+                lista.innerHTML = `
+                <div id="empty-state" class="text-center text-gray-400 mt-10">
+                    <i data-lucide="shopping-cart" class="w-12 h-12 mx-auto mb-2 opacity-50"></i>
+                    <p class="text-sm">O seu carrinho está vazio.</p>
+                    <p class="text-xs mt-2">Escreva acima para adicionar produtos.</p>
+                </div>`;
+            } else {
+                compraAtual.itens.forEach(item => {
+                    total += item.subtotal;
+                    lista.innerHTML += `
+                    <li class="bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="text-2xl bg-gray-50 w-10 h-10 flex items-center justify-center rounded-lg border border-gray-100">${item.icone}</div>
+                            <div>
+                                <p class="text-sm font-bold text-gray-800 capitalize">${item.nome} ${item.variacao || ''}</p>
+                                <p class="text-xs text-gray-500">${item.isKg ? item.qtd.toFixed(3)+'kg' : item.qtd+'un'} x R$ ${item.preco.toFixed(2).replace('.',',')}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="font-bold text-gray-900">R$ ${item.subtotal.toFixed(2).replace('.',',')}</span>
+                            <button onclick="removerItem(${item.id})" class="text-red-400 p-1 hover:bg-red-50 rounded"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                        </div>
+                    </li>`;
+                });
+            }
+            
+            lucide.createIcons();
+            atualizarDashboard(total);
+        }
+
+        function atualizarDashboard(total) {
+            document.getElementById('lbl-total').innerText = `R$ ${total.toFixed(2).replace('.',',')}`;
+            const saldo = compraAtual.teto - total;
+            document.getElementById('lbl-saldo').innerText = `R$ ${saldo.toFixed(2).replace('.',',')}`;
+            
+            const pct = Math.min((total / compraAtual.teto) * 100, 100);
+            const barra = document.getElementById('bar-teto');
+            const badge = document.getElementById('badge-teto');
+            
+            barra.style.width = `${pct}%`;
+            
+            if(pct < 75) {
+                barra.className = "h-full bg-teal-400 transition-all duration-500";
+                badge.className = "text-xs font-bold px-2 py-1 rounded-md bg-teal-500/20 text-teal-400 border border-teal-500/30";
+                badge.innerText = "Seguro";
+                document.getElementById('lbl-saldo').className = "text-lg font-bold text-teal-400";
+            } else if (pct < 95) {
+                barra.className = "h-full bg-yellow-400 transition-all duration-500";
+                badge.className = "text-xs font-bold px-2 py-1 rounded-md bg-yellow-500/20 text-yellow-400 border border-yellow-500/30";
+                badge.innerText = "Alerta";
+                document.getElementById('lbl-saldo').className = "text-lg font-bold text-yellow-400";
+            } else {
+                barra.className = "h-full bg-red-500 transition-all duration-500 animate-pulse";
+                badge.className = "text-xs font-bold px-2 py-1 rounded-md bg-red-500/20 text-red-400 border border-red-500/30 animate-pulse";
+                badge.innerText = "Ultrapassou!";
+                document.getElementById('lbl-saldo').className = "text-lg font-bold text-red-400";
+            }
+        }
+
+        function abrirModalDescarte() { document.getElementById('modal-descarte').classList.remove('hidden'); }
+        function fecharModalDescarte() { document.getElementById('modal-descarte').classList.add('hidden'); }
+        
+        function confirmarDescarte() {
+            localStorage.removeItem('marketbuy_current');
+            compraAtual = { local: '', teto: 0, itens: [] };
+            fecharModalDescarte();
+            document.getElementById('input-smart').value = '';
+            document.getElementById('setup-local').value = '';
+            document.getElementById('setup-teto').value = '';
+            toggleView('compras');
+        }
+
+        function finalizarCompra() {
+            if(compraAtual.itens.length === 0) { alert("Carrinho vazio!"); return; }
+            compraAtual.totalFinal = compraAtual.itens.reduce((acc, item) => acc + item.subtotal, 0);
+            historico.unshift(compraAtual);
+            localStorage.setItem('marketbuy_historico', JSON.stringify(historico));
+            
+            localStorage.removeItem('marketbuy_current');
+            compraAtual = { local: '', teto: 0, itens: [] };
+            document.getElementById('setup-local').value = '';
+            document.getElementById('setup-teto').value = '';
+            
+            toggleView('historico');
+        }
+
+        function salvarSessao() {
+            localStorage.setItem('marketbuy_current', JSON.stringify(compraAtual));
+        }
+
+        function renderHistorico() {
+            const list = document.getElementById('lista-historico');
+            list.innerHTML = historico.length === 0 ? '<p class="text-center text-gray-500 text-sm mt-10">Nenhuma compra finalizada ainda.</p>' : '';
+            
+            historico.forEach(compra => {
+                const dataFormat = new Date(compra.data).toLocaleDateString('pt-BR');
+                const gastouMais = compra.totalFinal > compra.teto;
+                
+                list.innerHTML += `
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h3 class="font-bold text-gray-800">${compra.local}</h3>
+                            <p class="text-xs text-gray-500">${dataFormat} • ${compra.itens.length} itens</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="font-black text-gray-900">R$ ${compra.totalFinal.toFixed(2).replace('.',',')}</p>
+                            <p class="text-[10px] ${gastouMais ? 'text-red-500' : 'text-teal-600'}">Teto: R$ ${compra.teto.toFixed(2)}</p>
+                        </div>
+                    </div>
+                </div>`;
+            });
+        }
+
+        function exportarCSV() {
+            if(historico.length === 0) return alert("Histórico vazio.");
+            let csv = "Data,Local,Produto,Qtd,Preco_Unit,Subtotal\n";
+            historico.forEach(c => {
+                const data = new Date(c.data).toLocaleDateString('pt-BR');
+                c.itens.forEach(i => {
+                    csv += `${data},${c.local},${i.nome},${i.qtd},${i.preco},${i.subtotal}\n`;
+                });
+            });
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", "historico_marketbuy.csv");
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        checkSessaoAtiva();
+    </script>
 </body>
 </html>
