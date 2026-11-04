@@ -59,6 +59,7 @@
     }
     ::-webkit-scrollbar {
       width: 4px;
+      height: 4px;
     }
     ::-webkit-scrollbar-thumb {
       background: #cbd5e1;
@@ -74,48 +75,65 @@
       0%, 100% { opacity: 1; transform: scale(1); }
       50% { opacity: 0.85; transform: scale(1.02); }
     }
+    /* Estilos para o carrossel de filtros */
+    .filter-scroll {
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .filter-scroll::-webkit-scrollbar {
+      display: none;
+    }
+    .filter-chip.active {
+      background-color: #059669;
+      color: white;
+      border-color: #059669;
+    }
+    .dark .filter-chip.active {
+      background-color: #10b981;
+      color: #022c22;
+    }
   </style>
 </head>
 <body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex justify-center selection:bg-emerald-500 selection:text-white transition-colors duration-200">
 
   <!-- Mobile Frame Container -->
-  <main class="w-full max-w-md bg-white dark:bg-slate-900 min-h-screen flex flex-col shadow-2xl relative pb-10 border-x border-slate-200/60 dark:border-slate-800/80">
+  <main class="w-full max-w-md bg-white dark:bg-slate-900 min-h-screen flex flex-col shadow-2xl relative pb-10 border-x border-slate-200/60 dark:border-slate-800/80 overflow-x-hidden">
 
     <!-- Header Navigation & Branding -->
-    <header class="sticky top-0 z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 px-4 py-3 flex items-center justify-between">
-      <div class="flex items-center gap-2.5">
-        <div class="relative w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-600 via-teal-600 to-emerald-400 flex items-center justify-center text-white shadow-lg shadow-emerald-600/20">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <header class="sticky top-0 z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 px-2.5 py-2.5 flex items-center justify-between gap-1.5">
+      <div class="flex items-center gap-2 shrink-0">
+        <!-- Ícone Original da Sacola com Insígnia MA -->
+        <div class="relative w-9 h-9 rounded-2xl bg-gradient-to-tr from-emerald-600 via-teal-600 to-emerald-400 flex items-center justify-center text-white shadow-md shadow-emerald-600/20 shrink-0">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
           </svg>
-          <div class="absolute -bottom-1 -right-1 bg-slate-900 dark:bg-white text-emerald-400 dark:text-emerald-600 text-[8px] font-black px-1 rounded-md border-2 border-white dark:border-slate-900 leading-tight">MA</div>
+          <div class="absolute -bottom-1 -right-1 bg-slate-900 dark:bg-white text-emerald-400 dark:text-emerald-600 text-[7px] font-black px-1 rounded border-2 border-white dark:border-slate-900 leading-tight">MA</div>
         </div>
-        <div>
-          <div class="flex items-baseline gap-1">
-            <h1 class="font-black text-lg leading-tight tracking-tight text-slate-900 dark:text-white">
-              <span class="text-emerald-500">MA</span>rket <span class="font-extrabold text-slate-800 dark:text-slate-200">Buy</span>
-            </h1>
-            <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 font-bold uppercase tracking-wider">Pro</span>
-          </div>
-          <p id="headerStatusSubtitle" class="text-xs text-slate-500 dark:text-slate-400 font-medium truncate max-w-[170px]">
-            Mercado Inteligente
-          </p>
+        <div class="flex flex-col items-start">
+          <h1 class="font-black text-[15px] leading-none tracking-tight text-slate-900 dark:text-white whitespace-nowrap">
+            <span class="text-emerald-500">MA</span>rket <span class="font-extrabold text-slate-800 dark:text-slate-200">Buy</span>
+          </h1>
+          <span class="mt-1 text-[8px] px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 font-bold uppercase tracking-wider leading-none">Pro</span>
         </div>
       </div>
 
-      <div class="flex items-center gap-1.5">
+      <div class="flex items-center gap-1 min-w-0">
         <!-- Dark mode toggle -->
-        <button id="themeToggleBtn" aria-label="Alternar tema" class="p-2 rounded-xl text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800 transition">
-          <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
-          <i data-lucide="sun" class="w-4 h-4 hidden dark:block text-amber-400"></i>
+        <button id="themeToggleBtn" aria-label="Alternar tema" class="p-1.5 rounded-xl text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800 transition shrink-0">
+          <i data-lucide="moon" class="w-3.5 h-3.5 dark:hidden"></i>
+          <i data-lucide="sun" class="w-3.5 h-3.5 hidden dark:block text-amber-400"></i>
         </button>
 
-        <!-- View Switch Tabs -->
-        <nav class="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl text-xs font-semibold">
-          <button id="tabActiveBtn" onclick="switchView('active')" class="px-3 py-1.5 rounded-lg transition-all shadow-sm bg-white dark:bg-slate-700 text-slate-900 dark:text-white">
+        <!-- View Switch Tabs (Compacto para caber em qualquer tela) -->
+        <nav class="flex bg-slate-100 dark:bg-slate-800 p-0.5 rounded-xl text-[11px] font-semibold">
+          <button id="tabActiveBtn" onclick="switchView('active')" class="px-2 py-1 rounded-lg transition-all shadow-sm bg-white dark:bg-slate-700 text-slate-900 dark:text-white font-bold whitespace-nowrap">
             Compras
           </button>
-          <button id="tabHistoryBtn" onclick="switchView('history')" class="px-3 py-1.5 rounded-lg transition-all text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200">
+          <button id="tabSearchBtn" onclick="switchView('search')" class="px-2 py-1 rounded-lg transition-all text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 font-semibold whitespace-nowrap">
+            Pesquisa
+          </button>
+          <button id="tabHistoryBtn" onclick="switchView('history')" class="px-2 py-1 rounded-lg transition-all text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 font-semibold whitespace-nowrap">
             Histórico
           </button>
         </nav>
@@ -126,45 +144,45 @@
     <div class="flex-1 flex flex-col overflow-hidden">
 
       <!-- VIEW 1: START NEW PURCHASE -->
-      <section id="viewSetup" class="hidden flex-1 flex-col justify-center p-4 py-6 overflow-y-auto">
-        <div class="text-center mb-6">
+      <section id="viewSetup" class="hidden flex-1 flex-col justify-center p-4 py-4 overflow-y-auto">
+        <div class="text-center mb-5">
           <div class="inline-flex p-4 rounded-3xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 mb-3 ring-8 ring-emerald-50/50 dark:ring-emerald-900/10">
-            <i data-lucide="shopping-bag" class="w-10 h-10"></i>
+            <i data-lucide="shopping-bag" class="w-9 h-9"></i>
           </div>
-          <h2 class="text-2xl font-black text-slate-900 dark:text-white tracking-tight">Nova Compra</h2>
+          <h2 class="text-xl font-black text-slate-900 dark:text-white tracking-tight">Nova Compra</h2>
           <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-xs mx-auto">
             Defina o mercado e o teto máximo. O <strong>MArket Buy</strong> alertará em tempo real sobre seu saldo e comparará seus preços passados!
           </p>
         </div>
 
-        <form id="startPurchaseForm" onsubmit="handleStartPurchase(event)" class="space-y-4 bg-slate-50 dark:bg-slate-800/40 p-5 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm">
+        <form id="startPurchaseForm" onsubmit="handleStartPurchase(event)" class="space-y-4 bg-slate-50 dark:bg-slate-800/40 p-4 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm">
           <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">
+            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">
               Supermercado / Local
             </label>
             <div class="relative">
-              <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+              <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                 <i data-lucide="map-pin" class="w-4 h-4"></i>
               </span>
-              <input type="text" id="setupMarketName" required placeholder="Ex: Assaí Atacadista, Atacadão, Carrefour..." 
-                class="w-full pl-10 pr-4 py-3 rounded-2xl bg-white dark:bg-slate-800 text-sm border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-semibold text-slate-900 dark:text-white placeholder-slate-400">
+              <input type="text" id="setupMarketName" required placeholder="Ex: Assaí Atacadista, Atacadão..." 
+                class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-white dark:bg-slate-800 text-sm border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-semibold text-slate-900 dark:text-white placeholder-slate-400">
             </div>
           </div>
 
           <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">
+            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">
               Teto Máximo de Gastos (R$)
             </label>
             <div class="relative">
-              <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 font-bold text-sm">
+              <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 font-bold text-sm">
                 R$
               </span>
               <input type="number" id="setupBudgetLimit" step="0.01" min="1" required placeholder="0,00" 
-                class="w-full pl-11 pr-4 py-3 rounded-2xl bg-white dark:bg-slate-800 text-sm border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-bold text-slate-900 dark:text-white placeholder-slate-400">
+                class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-white dark:bg-slate-800 text-sm border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-bold text-slate-900 dark:text-white placeholder-slate-400">
             </div>
           </div>
 
-          <button type="submit" class="w-full mt-2 py-3.5 px-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] text-white font-extrabold text-sm shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2 transition duration-150">
+          <button type="submit" class="w-full mt-2 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] text-white font-extrabold text-sm shadow-md shadow-emerald-600/30 flex items-center justify-center gap-2 transition duration-150">
             <i data-lucide="play" class="w-4 h-4 fill-current"></i>
             Entrar no Mercado e Começar
           </button>
@@ -174,125 +192,128 @@
       <!-- VIEW 2: ACTIVE PURCHASE (In-Store Live Mode) -->
       <section id="viewActive" class="hidden flex-1 flex-col overflow-hidden">
         
-        <div class="flex-none p-4 pb-2 space-y-4">
+        <div class="flex-none p-3 pb-2 space-y-3">
           <!-- Live Budget Card -->
-          <div class="relative overflow-hidden rounded-3xl bg-slate-900 text-white p-5 shadow-xl shadow-slate-950/20 border border-slate-800 transition-all">
+          <div class="relative overflow-hidden rounded-2xl bg-slate-900 text-white p-4 shadow-lg shadow-slate-950/20 border border-slate-800 transition-all">
             <!-- Glow Effect -->
-            <div id="budgetGlow" class="absolute -right-10 -bottom-10 w-48 h-48 rounded-full bg-emerald-500/15 blur-2xl pointer-events-none transition-colors duration-500"></div>
+            <div id="budgetGlow" class="absolute -right-10 -bottom-10 w-40 h-40 rounded-full bg-emerald-500/15 blur-2xl pointer-events-none transition-colors duration-500"></div>
 
-          <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center gap-2">
-              <span class="inline-flex w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-              <span id="activeStoreBadge" class="text-xs font-bold text-slate-300 uppercase tracking-wider truncate max-w-[180px]">Supermercado</span>
-            </div>
-            <span id="budgetPercentLabel" class="text-[11px] font-black px-2.5 py-1 rounded-full bg-slate-800 text-emerald-400 border border-slate-700">
-              0% do teto
-            </span>
-          </div>
-
-          <div class="flex items-baseline justify-between mt-1">
-            <div>
-              <p class="text-[11px] text-slate-400 font-semibold tracking-wide uppercase">Total Acumulado</p>
-              <h2 id="totalSpentText" class="text-3xl font-black tracking-tight text-white">R$ 0,00</h2>
-            </div>
-            <div class="text-right">
-              <p class="text-[11px] text-slate-400 font-semibold tracking-wide uppercase">Saldo Disponível</p>
-              <p id="remainingBudgetText" class="text-lg font-black text-emerald-400">R$ 0,00</p>
-            </div>
-          </div>
-
-          <!-- Dynamic Progress Bar -->
-          <div class="mt-4">
-            <div class="w-full bg-slate-800 rounded-full h-3 overflow-hidden p-0.5 border border-slate-700/60">
-              <div id="budgetProgressBar" class="h-full rounded-full transition-all duration-300 bg-emerald-500 w-[0%]"></div>
-            </div>
-            <div class="flex justify-between items-center text-[11px] text-slate-400 mt-1.5 font-bold">
-              <span>R$ 0,00</span>
-              <span id="targetBudgetSpan">Teto: R$ 0,00</span>
-            </div>
-          </div>
-
-          <!-- Alert notification banner -->
-          <div id="alertBanner" class="hidden mt-3 pt-2.5 border-t border-red-500/30 flex items-center gap-2 text-xs font-bold text-rose-400">
-            <i data-lucide="alert-triangle" class="w-4 h-4 shrink-0 animate-bounce"></i>
-            <span id="alertBannerMsg">Você ultrapassou o teto!</span>
-          </div>
-        </div>
-
-        <!-- SMART FAST INPUT (Feature #2 - Natural Language Parser) -->
-        <div class="bg-gradient-to-b from-white to-slate-50 dark:from-slate-800 dark:to-slate-800/90 rounded-3xl p-4 border border-slate-200/90 dark:border-slate-800 shadow-sm space-y-3">
-          
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <div class="p-1.5 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400">
-                <i data-lucide="sparkles" class="w-4 h-4"></i>
+            <div class="flex items-center justify-between mb-1.5">
+              <div class="flex items-center gap-1.5">
+                <span class="inline-flex w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                <span id="activeStoreBadge" class="text-[11px] font-bold text-slate-300 uppercase tracking-wider truncate max-w-[160px]">Supermercado</span>
               </div>
-              <span class="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-200">
-                Adição Rápida Inteligente
+              <span id="budgetPercentLabel" class="text-[10px] font-black px-2 py-0.5 rounded-full bg-slate-800 text-emerald-400 border border-slate-700">
+                0% do teto
               </span>
             </div>
-            <span class="text-[10px] text-slate-400 font-medium">Digite e tecle Enter ↵</span>
-          </div>
 
-          <!-- Natural text input bar -->
-          <form id="smartAddForm" onsubmit="handleSmartSubmit(event)" class="relative">
-            <input type="text" id="smartInput" autocomplete="off"
-              placeholder='Ex: "2 arroz 3,99" ou "1.45 alcatra 42,90kg"'
-              class="w-full pl-3.5 pr-12 py-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-900 dark:text-white placeholder-slate-400 shadow-inner">
-            <button type="submit" aria-label="Adicionar item" class="absolute right-1.5 top-1.5 bottom-1.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center active:scale-95 transition">
-              <i data-lucide="plus" class="w-4 h-4"></i>
-            </button>
-          </form>
-
-          <!-- Live smart detection preview badge -->
-          <div id="parserPreviewBox" class="p-3 bg-slate-100 dark:bg-slate-900/60 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 flex items-center justify-between text-xs transition">
-            <div class="flex items-center gap-2.5 min-w-0">
-              <span id="previewEmoji" class="text-xl shrink-0">🛒</span>
-              <div class="min-w-0">
-                <div class="flex items-center gap-1.5 truncate">
-                  <span id="previewQtyMode" class="font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950 px-1.5 py-0.5 rounded text-[10px]">1 un</span>
-                  <span id="previewName" class="font-bold text-slate-800 dark:text-slate-200 truncate">Comece a digitar...</span>
-                </div>
-                <div id="previewPriceComparison" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
-                  Preço: R$ 0,00
-                </div>
+            <div class="flex items-baseline justify-between mt-1">
+              <div>
+                <p class="text-[10px] text-slate-400 font-semibold tracking-wide uppercase">Total Acumulado</p>
+                <h2 id="totalSpentText" class="text-2xl font-black tracking-tight text-white">R$ 0,00</h2>
+              </div>
+              <div class="text-right">
+                <p class="text-[10px] text-slate-400 font-semibold tracking-wide uppercase">Saldo Disponível</p>
+                <p id="remainingBudgetText" class="text-base font-black text-emerald-400">R$ 0,00</p>
               </div>
             </div>
-            <div class="text-right shrink-0 pl-2">
-              <span class="text-[10px] text-slate-400 uppercase font-semibold block">Total</span>
-              <span id="previewSubtotal" class="font-black text-sm text-slate-900 dark:text-white">R$ 0,00</span>
+
+            <!-- Dynamic Progress Bar -->
+            <div class="mt-3">
+              <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden p-0.5 border border-slate-700/60">
+                <div id="budgetProgressBar" class="h-full rounded-full transition-all duration-300 bg-emerald-500 w-[0%]"></div>
+              </div>
+              <div class="flex justify-between items-center text-[10px] text-slate-400 mt-1 font-bold">
+                <span>R$ 0,00</span>
+                <span id="targetBudgetSpan">Teto: R$ 0,00</span>
+              </div>
+            </div>
+
+            <!-- Alert notification banner -->
+            <div id="alertBanner" class="hidden mt-2 pt-2 border-t border-red-500/30 flex items-center gap-1.5 text-[11px] font-bold text-rose-400">
+              <i data-lucide="alert-triangle" class="w-3.5 h-3.5 shrink-0 animate-bounce"></i>
+              <span id="alertBannerMsg">Ultrapassou o teto!</span>
             </div>
           </div>
 
-          <!-- Help tips accordion -->
-          <div class="text-[11px] text-slate-400 space-y-1 pt-1 border-t border-slate-100 dark:border-slate-700/50">
-            <p class="flex items-center gap-1 font-medium">
-              <i data-lucide="check" class="w-3 h-3 text-emerald-500"></i>
-              <span><strong>Unidades:</strong> <code class="text-slate-600 dark:text-slate-300">2 leite 4,50</code> ou <code class="text-slate-600 dark:text-slate-300">3 molho tomate 2,29un</code></span>
-            </p>
-            <p class="flex items-center gap-1 font-medium">
-              <i data-lucide="check" class="w-3 h-3 text-emerald-500"></i>
-              <span><strong>Carnes e Pesados:</strong> <code class="text-slate-600 dark:text-slate-300">1.45 picanha 69,90</code> ou <code class="text-slate-600 dark:text-slate-300">0.850 queijo 39kg</code></span>
-            </p>
+          <!-- SMART FAST INPUT (Feature #2 - Natural Language Parser) -->
+          <div class="bg-gradient-to-b from-white to-slate-50 dark:from-slate-800 dark:to-slate-800/90 rounded-2xl p-3 border border-slate-200/90 dark:border-slate-800 shadow-sm space-y-2.5">
+            
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-1.5">
+                <div class="p-1 rounded-md bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                </div>
+                <span class="text-[11px] font-black uppercase tracking-wider text-slate-700 dark:text-slate-200">
+                  Adição Rápida Inteligente
+                </span>
+              </div>
+            </div>
+
+            <!-- Natural text input bar -->
+            <form id="smartAddForm" onsubmit="handleSmartSubmit(event)" class="relative">
+              <input type="text" id="smartInput" autocomplete="off"
+                placeholder='Ex: "2 arroz 3,99" ou "1.45 alcatra 42,90kg"'
+                class="w-full pl-3 pr-10 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-[13px] font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-900 dark:text-white placeholder-slate-400 shadow-inner">
+              <button type="submit" aria-label="Adicionar item" class="absolute right-1 top-1 bottom-1 px-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold flex items-center justify-center active:scale-95 transition">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+              </button>
+            </form>
+
+            <!-- Live smart detection preview badge -->
+            <div id="parserPreviewBox" class="p-2 bg-slate-100 dark:bg-slate-900/60 rounded-xl border border-slate-200/80 dark:border-slate-800/80 flex items-center justify-between text-[11px] transition">
+              <div class="flex items-center gap-2 min-w-0">
+                <span id="previewEmoji" class="text-lg shrink-0">🛒</span>
+                <div class="min-w-0">
+                  <div class="flex items-center gap-1.5 truncate">
+                    <span id="previewQtyMode" class="font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950 px-1 rounded text-[9px]">1 un</span>
+                    <span id="previewName" class="font-bold text-slate-800 dark:text-slate-200 truncate">Comece a digitar...</span>
+                  </div>
+                  <div id="previewPriceComparison" class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 truncate">
+                    Preço: R$ 0,00
+                  </div>
+                </div>
+              </div>
+              <div class="text-right shrink-0 pl-1">
+                <span class="text-[9px] text-slate-400 uppercase font-semibold block">Total</span>
+                <span id="previewSubtotal" class="font-black text-xs text-slate-900 dark:text-white">R$ 0,00</span>
+              </div>
+            </div>
           </div>
-        </div>
         </div>
 
         <!-- ITEMS IN CART LIST (Scrollable Area) -->
-        <div class="flex-1 overflow-y-auto px-4 pb-4">
-          <div class="flex items-center justify-between mb-2 px-1 sticky top-0 bg-slate-100/90 dark:bg-slate-950/90 backdrop-blur-sm z-10 py-1">
-            <h3 class="text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-              <span>Carrinho de Compras</span>
-              <span id="cartCountBadge" class="bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 px-2 py-0.5 rounded-full text-[10px] font-black">0</span>
-            </h3>
-            <span id="cartSumPreview" class="text-xs font-bold text-slate-700 dark:text-slate-300">Total: R$ 0,00</span>
+        <div class="flex-1 overflow-y-auto px-3 pb-4 pt-1">
+          <div class="sticky top-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md z-10 pt-1 pb-2 mb-2 border-b border-slate-100 dark:border-slate-800">
+            <div class="flex items-center justify-between mb-2 px-1">
+              <h3 class="text-[11px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                <span>Carrinho de Compras</span>
+                <span id="cartCountBadge" class="bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 px-1.5 py-0.5 rounded-full text-[9px] font-black">0</span>
+              </h3>
+              <span id="cartSumPreview" class="text-[11px] font-bold text-slate-700 dark:text-slate-300">Total: R$ 0,00</span>
+            </div>
+
+            <!-- Rolo de Filtros abaixo de Carrinho de Compras -->
+            <div class="flex items-center gap-1.5 overflow-x-auto filter-scroll pb-0.5" id="categoryFilters">
+              <button onclick="filterCart('Geral')" class="filter-chip active shrink-0 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-[11px] font-bold text-slate-700 dark:text-slate-300 transition whitespace-nowrap">Geral</button>
+              <button onclick="filterCart('🥩 Carnes & Frios')" class="filter-chip shrink-0 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-[11px] font-bold text-slate-700 dark:text-slate-300 transition whitespace-nowrap">🥩 Carnes & Frios</button>
+              <button onclick="filterCart('🥬 Hortifrúti')" class="filter-chip shrink-0 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-[11px] font-bold text-slate-700 dark:text-slate-300 transition whitespace-nowrap">🥬 Hortifrúti</button>
+              <button onclick="filterCart('🥛 Laticínios')" class="filter-chip shrink-0 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-[11px] font-bold text-slate-700 dark:text-slate-300 transition whitespace-nowrap">🥛 Laticínios</button>
+              <button onclick="filterCart('🥖 Padaria')" class="filter-chip shrink-0 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-[11px] font-bold text-slate-700 dark:text-slate-300 transition whitespace-nowrap">🥖 Padaria</button>
+              <button onclick="filterCart('🌾 Mercearia')" class="filter-chip shrink-0 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-[11px] font-bold text-slate-700 dark:text-slate-300 transition whitespace-nowrap">🌾 Mercearia</button>
+              <button onclick="filterCart('🍺 Bebidas')" class="filter-chip shrink-0 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-[11px] font-bold text-slate-700 dark:text-slate-300 transition whitespace-nowrap">🍺 Bebidas</button>
+              <button onclick="filterCart('🧼 Limpeza')" class="filter-chip shrink-0 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-[11px] font-bold text-slate-700 dark:text-slate-300 transition whitespace-nowrap">🧼 Limpeza</button>
+              <button onclick="filterCart('🧴 Higiene')" class="filter-chip shrink-0 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-[11px] font-bold text-slate-700 dark:text-slate-300 transition whitespace-nowrap">🧴 Higiene</button>
+              <button onclick="filterCart('🐶 Pet & Outros')" class="filter-chip shrink-0 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-[11px] font-bold text-slate-700 dark:text-slate-300 transition whitespace-nowrap">🐶 Pet & Outros</button>
+            </div>
           </div>
 
           <!-- Empty cart placeholder -->
-          <div id="cartEmptyState" class="hidden text-center py-10 px-4 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-3xl">
-            <div class="text-3xl mb-2">🛍️</div>
-            <p class="text-sm font-bold text-slate-700 dark:text-slate-300">Seu carrinho está vazio</p>
-            <p class="text-xs text-slate-400 mt-1 max-w-[220px] mx-auto">Digite os itens na barra rápida acima para começar a somar seus gastos.</p>
+          <div id="cartEmptyState" class="hidden text-center py-8 px-4 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl">
+            <div class="text-2xl mb-1.5">🛍️</div>
+            <p class="text-[13px] font-bold text-slate-700 dark:text-slate-300">Seu carrinho está vazio</p>
+            <p class="text-[11px] text-slate-400 mt-1 max-w-[200px] mx-auto">Digite os itens na barra rápida acima.</p>
           </div>
 
           <!-- Cart list elements -->
@@ -302,77 +323,194 @@
         </div>
 
         <!-- FINISH PURCHASE ACTIONS (Fixed Bottom) -->
-        <div class="flex-none p-4 pt-3 pb-6 space-y-2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-t border-slate-200/60 dark:border-slate-800">
-          <button onclick="handleFinishPurchase()" class="w-full py-3.5 px-4 rounded-2xl bg-slate-900 hover:bg-slate-800 dark:bg-emerald-600 dark:hover:bg-emerald-700 text-white font-black text-sm shadow-xl flex items-center justify-center gap-2 active:scale-[0.98] transition">
-            <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400 dark:text-white"></i>
+        <div class="flex-none p-3 pt-2 pb-4 space-y-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-t border-slate-200/60 dark:border-slate-800">
+          <button onclick="handleFinishPurchase()" class="w-full py-3 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-emerald-600 dark:hover:bg-emerald-700 text-white font-black text-[13px] shadow-lg flex items-center justify-center gap-2 active:scale-[0.98] transition">
+            <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 dark:text-white"></i>
             Finalizar Compra
           </button>
           
-          <button id="btnDiscardPurchase" type="button" onclick="openDiscardModal(event)" class="w-full py-3 text-xs font-extrabold text-rose-500 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-xl transition text-center flex items-center justify-center gap-1.5 active:scale-95">
-            <i data-lucide="trash-2" class="w-4 h-4 text-rose-500"></i>
+          <button id="btnDiscardPurchase" type="button" onclick="openDiscardModal(event)" class="w-full py-2 text-[11px] font-extrabold text-rose-500 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-lg transition text-center flex items-center justify-center gap-1.5 active:scale-95">
+            <i data-lucide="trash-2" class="w-3.5 h-3.5 text-rose-500"></i>
             Descartar esta compra
           </button>
         </div>
 
       </section>
 
-      <!-- VIEW 3: PURCHASE HISTORY & EXPORT -->
-      <section id="viewHistory" class="hidden flex-1 flex-col p-4 overflow-y-auto space-y-4">
+      <!-- VIEW 3: SEARCH / AVULSO -->
+      <section id="viewSearch" class="hidden flex-1 flex-col p-4 overflow-hidden space-y-4">
+        <div>
+          <h2 class="text-lg font-black text-slate-900 dark:text-white">Pesquisa de Preços</h2>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400">Busque quanto pagou nas últimas compras ou registre um item avulso.</p>
+        </div>
+
+        <div class="relative">
+          <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+            <i data-lucide="search" class="w-4 h-4"></i>
+          </span>
+          <input type="text" id="searchInput" oninput="handleSearch()" autocomplete="off" placeholder="Ex: Café Blend, Sabão em Pó..."
+            class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-900 dark:text-white placeholder-slate-400 shadow-inner">
+        </div>
+
+        <button onclick="openAvulsoModal()" class="w-full py-2.5 px-4 rounded-xl border border-dashed border-emerald-500/50 bg-emerald-50/50 hover:bg-emerald-50 dark:bg-emerald-950/30 dark:hover:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 font-bold text-xs flex items-center justify-center gap-1.5 transition">
+          <i data-lucide="plus-circle" class="w-4 h-4"></i>
+          Adicionar Preço Avulso (Sem abrir compra)
+        </button>
+
+        <div class="flex-1 overflow-y-auto mt-2">
+          <ul id="searchResultsList" class="space-y-2 pb-6">
+            <!-- Search Results Populated via JS -->
+          </ul>
+          <div id="searchEmptyState" class="text-center py-8 text-slate-400 text-xs font-medium">
+            Digite acima para pesquisar.
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 4: PURCHASE HISTORY & EXPORT -->
+      <section id="viewHistory" class="hidden flex-1 flex-col p-3 overflow-y-auto space-y-4">
         <div class="flex items-center justify-between">
           <div>
             <h2 class="text-lg font-black text-slate-900 dark:text-white">Histórico de Compras</h2>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Suas idas anteriores ao mercado</p>
+            <p class="text-[11px] text-slate-500 dark:text-slate-400">Suas idas anteriores ao mercado</p>
           </div>
           
           <div class="flex items-center gap-1">
-            <button onclick="exportHistoryCSV()" title="Exportar para Excel / CSV" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold flex items-center gap-1 transition">
+            <button onclick="exportHistoryCSV()" title="Exportar para Excel / CSV" class="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-[11px] font-bold flex items-center gap-1 transition">
               <i data-lucide="download" class="w-3.5 h-3.5"></i>
               CSV
             </button>
-            <button onclick="handleClearHistory()" title="Limpar todo o histórico" class="p-2 rounded-xl text-slate-400 hover:text-rose-500 transition">
+            <button onclick="handleClearHistory()" title="Limpar todo o histórico" class="p-1.5 rounded-lg text-slate-400 hover:text-rose-500 transition">
               <i data-lucide="trash-2" class="w-4 h-4"></i>
             </button>
           </div>
         </div>
 
         <!-- History Empty State -->
-        <div id="historyEmptyState" class="hidden text-center py-12 px-4 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-3xl">
-          <div class="text-3xl mb-2">📜</div>
-          <p class="text-sm font-bold text-slate-700 dark:text-slate-300">Nenhuma compra salva</p>
-          <p class="text-xs text-slate-400 mt-1">Conforme você finalizar suas compras, elas aparecerão com todos os detalhes e comparações aqui.</p>
+        <div id="historyEmptyState" class="hidden text-center py-10 px-4 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl">
+          <div class="text-2xl mb-1.5">📜</div>
+          <p class="text-[13px] font-bold text-slate-700 dark:text-slate-300">Nenhuma compra salva</p>
+          <p class="text-[11px] text-slate-400 mt-1">Conforme você finalizar suas compras, elas aparecerão aqui.</p>
         </div>
 
         <!-- History Cards List -->
-        <div id="historyListContainer" class="space-y-3">
+        <div id="historyListContainer" class="space-y-3 pb-6">
           <!-- Populated via Javascript -->
         </div>
       </section>
 
     </div>
 
+    <!-- Edit Item Modal -->
+    <div id="editItemModal" class="hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4">
+      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 max-w-xs w-full shadow-2xl space-y-3 relative">
+        <button type="button" onclick="closeEditModal()" class="absolute top-3 right-3 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+        <h3 class="text-sm font-black text-slate-900 dark:text-white flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
+          <i data-lucide="edit-3" class="w-4 h-4 text-emerald-500"></i> Editar Item
+        </h3>
+        
+        <form id="editItemForm" onsubmit="saveEditedItem(event)" class="space-y-3 pt-1">
+          <input type="hidden" id="editItemId">
+          
+          <div>
+            <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Nome do Produto</label>
+            <input type="text" id="editItemName" required class="w-full px-3 py-2 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500 outline-none">
+          </div>
+          
+          <div class="grid grid-cols-2 gap-2">
+             <div>
+              <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Tipo</label>
+              <select id="editItemMode" class="w-full px-2 py-2 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500 outline-none">
+                <option value="unit">Unidade (un)</option>
+                <option value="weight">Peso (kg)</option>
+              </select>
+             </div>
+             <div>
+              <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Qtd / Peso</label>
+              <input type="number" id="editItemQty" step="0.001" min="0.001" required class="w-full px-3 py-2 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500 outline-none">
+             </div>
+          </div>
+          
+          <div>
+            <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Preço Unitário / kg (R$)</label>
+            <input type="number" id="editItemPrice" step="0.01" min="0.01" required class="w-full px-3 py-2 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-bold text-emerald-600 dark:text-emerald-400 focus:ring-2 focus:ring-emerald-500 outline-none">
+          </div>
+
+          <button type="submit" class="w-full mt-2 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition">
+            Salvar Alterações
+          </button>
+        </form>
+      </div>
+    </div>
+    <!-- Add / Edit Avulso Modal (Com Produto, Local, Tipo, Quantidade e Preço) -->
+    <div id="avulsoModal" class="hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4">
+      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 max-w-xs w-full shadow-2xl space-y-3 relative">
+        <button type="button" onclick="closeAvulsoModal()" class="absolute top-3 right-3 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+        <h3 id="avulsoModalTitle" class="text-sm font-black text-slate-900 dark:text-white flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
+          <i data-lucide="plus-circle" class="w-4 h-4 text-emerald-500"></i> Preço Avulso
+        </h3>
+        
+        <form id="avulsoForm" onsubmit="saveAvulsoItem(event)" class="space-y-3 pt-1">
+          <input type="hidden" id="avulsoId">
+          <div>
+            <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Produto</label>
+            <input type="text" id="avulsoName" required placeholder="Ex: Sabão Omo" class="w-full px-3 py-2 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500 outline-none">
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Local / Mercado</label>
+            <input type="text" id="avulsoLocal" required placeholder="Ex: Americanas" class="w-full px-3 py-2 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500 outline-none">
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Tipo</label>
+              <select id="avulsoMode" class="w-full px-2 py-2 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500 outline-none">
+                <option value="unit">Unidade (un)</option>
+                <option value="weight">Peso (kg)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Quantidade</label>
+              <input type="number" id="avulsoQty" step="0.001" min="0.001" value="1" required class="w-full px-3 py-2 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500 outline-none">
+            </div>
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Preço Unitário / kg (R$)</label>
+            <input type="number" id="avulsoPrice" step="0.01" min="0.01" required placeholder="0,00" class="w-full px-3 py-2 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-bold text-emerald-600 dark:text-emerald-400 focus:ring-2 focus:ring-emerald-500 outline-none">
+          </div>
+          <button type="submit" id="avulsoSubmitBtn" class="w-full mt-2 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition">
+            Cadastrar Referência
+          </button>
+        </form>
+      </div>
+    </div>
+
     <!-- Notification Toast -->
-    <div id="toastNotification" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white text-xs font-bold py-2.5 px-4 rounded-full shadow-2xl flex items-center gap-2 pointer-events-none opacity-0 transition-opacity duration-200">
-      <i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>
+    <div id="toastNotification" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white text-[11px] font-bold py-2 px-3 rounded-full shadow-2xl flex items-center gap-1.5 pointer-events-none opacity-0 transition-opacity duration-200">
+      <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i>
       <span id="toastMessage">Ação realizada!</span>
     </div>
 
-    <!-- Custom Discard Confirmation Modal (avoids browser confirm() blocking) -->
-    <div id="discardModal" class="hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
-      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 max-w-xs w-full shadow-2xl text-center space-y-4">
-        <div class="w-12 h-12 rounded-2xl bg-rose-100 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 flex items-center justify-center mx-auto">
-          <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+    <!-- Custom Discard Confirmation Modal -->
+    <div id="discardModal" class="hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4">
+      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 max-w-[280px] w-full shadow-2xl text-center space-y-3">
+        <div class="w-10 h-10 rounded-xl bg-rose-100 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 flex items-center justify-center mx-auto">
+          <i data-lucide="alert-triangle" class="w-5 h-5"></i>
         </div>
         <div>
-          <h3 class="text-base font-black text-slate-900 dark:text-white">Descartar compra?</h3>
-          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
-            Tem certeza que deseja cancelar? Todos os itens adicionados nesta sessão serão perdidos.
+          <h3 class="text-sm font-black text-slate-900 dark:text-white">Descartar compra?</h3>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
+            Tem certeza que deseja cancelar?
           </p>
         </div>
         <div class="flex gap-2 pt-1">
-          <button type="button" onclick="closeDiscardModal()" class="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold text-xs transition">
+          <button type="button" onclick="closeDiscardModal()" class="flex-1 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold text-[11px] transition">
             Voltar
           </button>
-          <button type="button" onclick="confirmDiscardPurchase()" class="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs shadow-md shadow-rose-600/30 transition">
+          <button type="button" onclick="confirmDiscardPurchase()" class="flex-1 py-2 rounded-lg bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-[11px] shadow-sm transition">
             Sim, descartar
           </button>
         </div>
@@ -383,126 +521,105 @@
 
   <script>
     /* =====================================================================
-       400+ ITEMS CLASSIFIER DICTIONARY & SAUSAGE / EMBUTIDOS OVERRIDE
+       EXPANDED ITEMS CLASSIFIER DICTIONARY
        ===================================================================== */
-    // Note: Sausages, linguiças and calabresas explicitly use "🌭" and sausage iconography
     const ITEM_CATALOG = [
-      // Embutidos & Sausages (Special user request)
-      { patterns: ['linguica', 'calabresa', 'salsicha', 'toscana', 'paio', 'chourico'], emoji: '🌭', icon: 'sandwich', label: 'Embutido' },
-      { patterns: ['salame', 'presunto', 'mortadela', 'peito de peru', 'copa', 'bacon', 'panceta', 'torresmo'], emoji: '🥓', icon: 'ham', label: 'Frios & Bacon' },
+      // Carnes & Frios
+      { patterns: ['linguica', 'calabresa', 'salsicha', 'toscana', 'paio', 'chourico', 'cuiabana', 'blumenau'], emoji: '🌭', category: '🥩 Carnes & Frios' },
+      { patterns: ['salame', 'presunto', 'mortadela', 'peito de peru', 'blanquet', 'copa', 'bacon', 'panceta', 'torresmo', 'pastrami', 'carpaccio', 'pate'], emoji: '🥓', category: '🥩 Carnes & Frios' },
+      { patterns: ['picanha', 'alcatra', 'patinho', 'acem', 'maminha', 'fraldinha', 'contra file', 'contrafile', 'file mignon', 'costela', 'cupim', 'carne moida', 'carne seca', 'carne de sol', 'charque', 'bife ancho', 'chorizo', 'prime rib', 't-bone', 'tomahawk', 'musculo', 'lagarto', 'coxao', 'ossobuco', 'rabada', 'rabo bovino', 'lingua bovina', 'figado', 'carne', 'bovino'], emoji: '🥩', category: '🥩 Carnes & Frios' },
+      { patterns: ['frango', 'peito de frango', 'sassami', 'coxa', 'sobrecoxa', 'asa', 'tulipa', 'coracao de frango', 'coracao de galinha', 'galinha', 'moela', 'chester', 'peru', 'codorna', 'pato'], emoji: '🍗', category: '🥩 Carnes & Frios' },
+      { patterns: ['porco', 'suino', 'suina', 'lombo', 'bisteca', 'pernil', 'joelho de porco', 'eisbein', 'barriga de porco', 'toucinho'], emoji: '🍖', category: '🥩 Carnes & Frios' },
+      { patterns: ['salmao', 'tilapia', 'panga', 'bacalhau', 'atum', 'sardinha', 'peixe', 'merluza', 'cacao', 'truta', 'kani', 'robalo', 'dourado', 'pintado', 'anchova', 'tainha'], emoji: '🐟', category: '🥩 Carnes & Frios' },
+      { patterns: ['camarao', 'lagosta'], emoji: '🦐', category: '🥩 Carnes & Frios' },
+      { patterns: ['lula', 'polvo', 'mexilhao', 'caranguejo', 'siri', 'ostra', 'marisco'], emoji: '🦑', category: '🥩 Carnes & Frios' },
+      { patterns: ['espetinho'], emoji: '🍢', category: '🥩 Carnes & Frios' },
 
-      // Bovinos e Carnes Nobres
-      { patterns: ['picanha', 'alcatra', 'patinho', 'acem', 'maminha', 'fraldinha', 'contra file', 'file mignon', 'costela bovina', 'cupim', 'carne moida', 'carne seca', 'charque', 'bife ancho', 'musculo', 'lagarto', 'coxao mole', 'coxao duro', 'ossobuco', 'figado', 'carne'], emoji: '🥩', icon: 'beef', label: 'Carne Bovina' },
-      
-      // Aves
-      { patterns: ['frango', 'peito de frango', 'coxa de frango', 'sobrecoxa', 'asa de frango', 'tulipa', 'coracao de galinha', 'galinha', 'moela', 'chester', 'peru'], emoji: '🍗', icon: 'drumstick', label: 'Frango & Aves' },
-      
-      // Suínos
-      { patterns: ['porco', 'lombo suino', 'costelinha de porco', 'bisteca', 'pernil'], emoji: '🍖', icon: 'ham', label: 'Carne Suína' },
+      // Laticínios
+      { patterns: ['leite em po', 'leite integral', 'leite desnatado', 'leite semidesnatado', 'leite zero lactose', 'leite de amendoas', 'leite de aveia', 'leite de soja', 'leite de coco', 'leite fermentado', 'leite condensado', 'creme de leite', 'leite', 'chantilly', 'doce de leite'], emoji: '🥛', category: '🥛 Laticínios' },
+      { patterns: ['ovo', 'ovos', 'clara'], emoji: '🥚', category: '🥛 Laticínios' },
+      { patterns: ['manteiga', 'margarina', 'ghee'], emoji: '🧈', category: '🥛 Laticínios' },
+      { patterns: ['mussarela', 'mucarela', 'prato', 'queijo', 'parmesao', 'provolone', 'gorgonzola', 'brie', 'camembert', 'gouda', 'emmental', 'cheddar', 'ricota', 'cottage', 'mascarpone', 'pecorino', 'gruyere', 'bufala', 'burrata', 'coalho', 'catupiry'], emoji: '🧀', category: '🥛 Laticínios' },
+      { patterns: ['requeijao', 'cream cheese', 'nata'], emoji: '🥯', category: '🥛 Laticínios' },
+      { patterns: ['iogurte', 'danone', 'yakult', 'coalhada', 'petit suisse', 'bebida lactea'], emoji: '🍓', category: '🥛 Laticínios' },
+      { patterns: ['sorvete', 'picole', 'acai', 'polpa'], emoji: '🍨', category: '🥛 Laticínios' },
 
-      // Peixes & Frutos do Mar
-      { patterns: ['salmao', 'tilapia', 'bacalhau', 'atum', 'sardinha', 'camarao', 'polvo', 'lula', 'mexilhao', 'peixe', 'merluza', 'cacao', 'truta', 'kani'], emoji: '🐟', icon: 'fish', label: 'Pescados' },
+      // Padaria
+      { patterns: ['pao frances', 'pao de forma', 'pao integral', 'pao de queijo', 'pao australiano', 'pao de batata', 'pao de alho', 'pao doce', 'pao sovado', 'pao brioche', 'ciabatta', 'pao italiano', 'pao sirio', 'pao', 'baguete', 'bisnaga', 'torrada'], emoji: '🥖', category: '🥖 Padaria' },
+      { patterns: ['croissant', 'folhado'], emoji: '🥐', category: '🥖 Padaria' },
+      { patterns: ['bolo', 'torta', 'sonho', 'rosquinha', 'donut', 'carolina', 'bomba de chocolate', 'eclair', 'quindim', 'pudim', 'empada', 'empadao', 'coxinha', 'esfiha', 'kibe'], emoji: '🍰', category: '🥖 Padaria' },
+      { patterns: ['biscoito', 'bolacha', 'cookie', 'wafer', 'cream cracker', 'maizena', 'polvilho'], emoji: '🍪', category: '🥖 Padaria' },
+      { patterns: ['salgadinho', 'cheetos', 'doritos', 'lays', 'chips', 'pringles', 'torcida', 'nacho', 'tortilha'], emoji: '🥔', category: '🥖 Padaria' },
+      { patterns: ['amendoim', 'castanha', 'nozes', 'pistache', 'amendoa', 'avela', 'macadamia', 'pacoca', 'pe de moleque'], emoji: '🥜', category: '🥖 Padaria' },
+      { patterns: ['chocolate', 'bombom', 'bala', 'pirulito', 'nutella', 'avela', 'geleia', 'goiabada', 'mel', 'gelatina'], emoji: '🍫', category: '🥖 Padaria' },
+      { patterns: ['cafe', 'nespresso', 'dolce gusto', 'cappuccino', 'capsula', 'filtro de papel'], emoji: '☕', category: '🥖 Padaria' },
+      { patterns: ['cha', 'mate', 'camomila', 'cidreira', 'hibisco', 'matcha', 'kombucha'], emoji: '🍵', category: '🥖 Padaria' },
+      { patterns: ['achocolatado', 'toddy', 'nescau', 'cacau'], emoji: '🍫', category: '🥖 Padaria' },
 
-      // Grãos, Farinhas e Cereais
-      { patterns: ['arroz', 'feijao', 'lentilha', 'grao de bico', 'ervilha seca', 'soja', 'aveia', 'quinoa', 'chia', 'linhaca', 'fubá', 'fuba', 'cuscuz', 'flocao', 'polvilho', 'tapioca', 'farofa', 'farinha'], emoji: '🌾', icon: 'wheat', label: 'Grãos & Farinhas' },
-      { patterns: ['pipoca', 'milho de pipoca'], emoji: '🍿', icon: 'popcorn', label: 'Pipoca' },
-      { patterns: ['granola', 'cereal', 'sucrilhos', 'corn flakes'], emoji: '🥣', icon: 'wheat', label: 'Cereais' },
-      { patterns: ['macarrao', 'espaguete', 'penne', 'parafuso', 'lasanha', 'talharim', 'massa'], emoji: '🍝', icon: 'utensils', label: 'Massas' },
-      { patterns: ['miojo', 'ramen', 'noodles', 'instantaneo'], emoji: '🍜', icon: 'soup', label: 'Massa Instantânea' },
-
-      // Açúcar, Sal, Óleos e Condimentos
-      { patterns: ['acucar', 'demerara', 'mascavo', 'adocante'], emoji: '🧂', icon: 'candy', label: 'Açúcar' },
-      { patterns: ['sal refinado', 'sal grosso', 'sal rosa', 'sal marinho', 'sal'], emoji: '🧂', icon: 'sparkles', label: 'Sal & Tempero' },
-      { patterns: ['oleo de soja', 'oleo de girassol', 'oleo de milho', 'oleo de coco', 'oleo', 'azeite', 'oliva'], emoji: '🫒', icon: 'droplet', label: 'Óleos & Azeite' },
-      { patterns: ['vinagre'], emoji: '🍾', icon: 'wine', label: 'Vinagre' },
-      { patterns: ['molho de tomate', 'extrato de tomate', 'passata', 'molho'], emoji: '🥫', icon: 'soup', label: 'Molhos & Conservas' },
-      { patterns: ['maionese'], emoji: '🧴', icon: 'egg', label: 'Maionese' },
-      { patterns: ['ketchup', 'mostarda', 'shoyu', 'pimenta', 'tabasco'], emoji: '🌶️', icon: 'flame', label: 'Condimentos' },
-      { patterns: ['milho em lata', 'ervilha em lata', 'palmito', 'azeitona', 'cogumelo', 'champignon', 'seleta'], emoji: '🥫', icon: 'package', label: 'Conservas' },
-
-      // Hortifrúti (Frutas)
-      { patterns: ['banana'], emoji: '🍌', icon: 'apple', label: 'Banana' },
-      { patterns: ['maca', 'maca fuji', 'maca gala'], emoji: '🍎', icon: 'apple', label: 'Maçã' },
-      { patterns: ['laranja', 'mexerica', 'tangerina', 'bergamota'], emoji: '🍊', icon: 'citrus', label: 'Laranja / Cítricos' },
-      { patterns: ['limao', 'limao taiti', 'limao siciliano'], emoji: '🍋', icon: 'citrus', label: 'Limão' },
-      { patterns: ['mamao', 'melancia', 'melao'], emoji: '🍉', icon: 'apple', label: 'Frutas' },
-      { patterns: ['abacaxi'], emoji: '🍍', icon: 'apple', label: 'Abacaxi' },
-      { patterns: ['manga'], emoji: '🥭', icon: 'apple', label: 'Manga' },
-      { patterns: ['uva'], emoji: '🍇', icon: 'grape', label: 'Uva' },
-      { patterns: ['morango'], emoji: '🍓', icon: 'apple', label: 'Morango' },
-      { patterns: ['abacate', 'avocado'], emoji: '🥑', icon: 'apple', label: 'Abacate' },
-      { patterns: ['pera', 'pessego', 'goiaba', 'maracuja', 'kiwi', 'ameixa', 'coco'], emoji: '🥥', icon: 'apple', label: 'Frutas' },
-
-      // Hortifrúti (Legumes & Verduras)
-      { patterns: ['tomate', 'cereja'], emoji: '🍅', icon: 'apple', label: 'Tomate' },
-      { patterns: ['cebola'], emoji: '🧅', icon: 'circle', label: 'Cebola' },
-      { patterns: ['alho'], emoji: '🧄', icon: 'sparkles', label: 'Alho' },
-      { patterns: ['batata doce', 'batata asterix', 'batata'], emoji: '🥔', icon: 'circle', label: 'Batata' },
-      { patterns: ['cenoura'], emoji: '🥕', icon: 'carrot', label: 'Cenoura' },
-      { patterns: ['chuchu', 'abobrinha', 'pepino', 'quiabo', 'jilo'], emoji: '🥒', icon: 'carrot', label: 'Legumes' },
-      { patterns: ['berinjela', 'beterraba'], emoji: '🍆', icon: 'carrot', label: 'Legumes' },
-      { patterns: ['pimentao'], emoji: '🫑', icon: 'flame', label: 'Pimentão' },
-      { patterns: ['mandioca', 'aipim', 'macaxeira', 'inhame'], emoji: '🪵', icon: 'package', label: 'Raízes' },
-      { patterns: ['brocolis', 'couve flor'], emoji: '🥦', icon: 'flower2', label: 'Brócolis / Couve-flor' },
-      { patterns: ['alface', 'couve', 'espinafre', 'rucula', 'agriao', 'repolho', 'cheiro verde', 'salsinha', 'cebolinha', 'coentro', 'hortela', 'manjericao'], emoji: '🥬', icon: 'salad', label: 'Verduras & Ervas' },
-
-      // Laticínios & Ovos
-      { patterns: ['leite em po', 'leite integral', 'leite desnatado', 'leite condensado', 'leite'], emoji: '🥛', icon: 'milk', label: 'Leites' },
-      { patterns: ['ovo', 'ovos', 'caipira', 'codorna'], emoji: '🥚', icon: 'egg', label: 'Ovos' },
-      { patterns: ['manteiga', 'margarina'], emoji: '🧈', icon: 'sandwich', label: 'Manteiga' },
-      { patterns: ['mussarela', 'mucarela', 'prato', 'queijo', 'parmesao', 'provolone', 'gorgonzola', 'brie', 'ricota', 'cottage', 'coalho'], emoji: '🧀', icon: 'pizza', label: 'Queijos' },
-      { patterns: ['requeijao', 'cream cheese', 'creme de leite', 'nata'], emoji: '🥯', icon: 'cup-soda', label: 'Cremes & Requeijão' },
-      { patterns: ['iogurte', 'danone', 'yakult', 'coalhada'], emoji: '🍓', icon: 'cup-soda', label: 'Iogurtes' },
-      { patterns: ['sorvete', 'picole', 'acai'], emoji: '🍨', icon: 'ice-cream-2', label: 'Sorvetes' },
-      { patterns: ['hamburguer', 'nuggets', 'batata frita congelada', 'pizza congelada', 'lasanha congelada', 'pao de queijo'], emoji: '🍕', icon: 'pizza', label: 'Congelados' },
-
-      // Padaria & Sobremesas
-      { patterns: ['pao frances', 'pao de forma', 'pao integral', 'pao', 'baguete', 'bisnaga', 'torrada'], emoji: '🥖', icon: 'sandwich', label: 'Pães' },
-      { patterns: ['croissant'], emoji: '🥐', icon: 'croissant', label: 'Croissant' },
-      { patterns: ['bolo', 'torta', 'sonho', 'rosquinha'], emoji: '🍰', icon: 'cake', label: 'Bolos & Doces' },
-      { patterns: ['biscoito', 'bolacha', 'cookie', 'wafer', 'cream cracker'], emoji: '🍪', icon: 'cookie', label: 'Biscoitos' },
-      { patterns: ['salgadinho', 'cheetos', 'doritos', 'lays', 'chips'], emoji: '🥔', icon: 'package', label: 'Snacks' },
-      { patterns: ['amendoim', 'castanha', 'nozes', 'pistache'], emoji: '🥜', icon: 'nut', label: 'Oleaginosas' },
-      { patterns: ['chocolate', 'bombom', 'bala', 'pirulito'], emoji: '🍫', icon: 'candy', label: 'Chocolates & Doces' },
-      { patterns: ['cafe', 'nespresso', 'dolce gusto', 'cappuccino'], emoji: '☕', icon: 'coffee', label: 'Café' },
-      { patterns: ['cha', 'mate'], emoji: '🍵', icon: 'cup-soda', label: 'Chá' },
-      { patterns: ['achocolatado', 'toddy', 'nescau', 'cacau'], emoji: '🍫', icon: 'cup-soda', label: 'Achocolatado' },
+      // Mercearia
+      { patterns: ['arroz', 'feijao', 'lentilha', 'grao de bico', 'grao-de-bico', 'ervilha seca', 'soja', 'aveia', 'quinoa', 'chia', 'linhaca', 'fubá', 'fuba', 'cuscuz', 'couscous', 'flocao', 'tapioca', 'farofa', 'farinha', 'amido', 'psyllium', 'gergelim', 'tahine'], emoji: '🌾', category: '🌾 Mercearia' },
+      { patterns: ['pipoca', 'milho de pipoca'], emoji: '🍿', category: '🌾 Mercearia' },
+      { patterns: ['granola', 'cereal', 'sucrilhos', 'corn flakes', 'barra de cereal', 'barra de proteina', 'whey', 'creatina', 'bcaa', 'glutamina', 'colageno', 'omega', 'vitamina', 'spirulina', 'propolis'], emoji: '🥣', category: '🌾 Mercearia' },
+      { patterns: ['macarrao', 'espaguete', 'penne', 'parafuso', 'fusilli', 'lasanha', 'talharim', 'fettuccine', 'gravatinha', 'farfalle', 'ninho', 'cabelo de anjo', 'massa', 'pastel'], emoji: '🍝', category: '🌾 Mercearia' },
+      { patterns: ['miojo', 'ramen', 'noodles', 'instantaneo'], emoji: '🍜', category: '🌾 Mercearia' },
+      { patterns: ['acucar', 'demerara', 'mascavo', 'adocante', 'sucralose', 'stevia', 'xilitol', 'eritritol'], emoji: '🧂', category: '🌾 Mercearia' },
+      { patterns: ['sal refinado', 'sal grosso', 'sal rosa', 'sal marinho', 'sal', 'oregano', 'pimenta-do-reino', 'canela', 'cravo', 'cominho', 'colorau', 'paprica', 'acafrao', 'curcuma', 'louro', 'noz-moscada', 'chimichurri', 'lemon pepper', 'caldo', 'fermento', 'bicarbonato'], emoji: '🧂', category: '🌾 Mercearia' },
+      { patterns: ['oleo de soja', 'oleo de girassol', 'oleo de milho', 'oleo de canola', 'oleo de coco', 'oleo', 'azeite', 'oliva'], emoji: '🫒', category: '🌾 Mercearia' },
+      { patterns: ['vinagre', 'balsamico'], emoji: '🍾', category: '🌾 Mercearia' },
+      { patterns: ['molho de tomate', 'extrato de tomate', 'passata', 'pesto', 'molho branco', 'molho madeira', 'molho'], emoji: '🥫', category: '🌾 Mercearia' },
+      { patterns: ['maionese'], emoji: '🧴', category: '🌾 Mercearia' },
+      { patterns: ['ketchup', 'mostarda', 'barbecue', 'shoyu', 'molho ingles', 'pimenta', 'tabasco'], emoji: '🌶️', category: '🌾 Mercearia' },
+      { patterns: ['milho verde', 'milho em lata', 'ervilha', 'dueto', 'palmito', 'azeitona', 'cogumelo', 'champignon', 'shimeji', 'shiitake', 'portobello', 'picles', 'tremoco', 'seleta'], emoji: '🥫', category: '🌾 Mercearia' },
+      { patterns: ['hamburguer', 'nuggets', 'empanado', 'batata pre-frita', 'batata rustica', 'pizza congelada', 'lasanha congelada', 'polenta', 'aneis de cebola'], emoji: '🍕', category: '🌾 Mercearia' },
 
       // Bebidas
-      { patterns: ['agua sem gas', 'agua com gas', 'agua mineral', 'agua'], emoji: '💧', icon: 'droplets', label: 'Água Mineral' },
-      { patterns: ['coca cola', 'guarana', 'fanta', 'sprite', 'pepsi', 'refrigerante', 'refri'], emoji: '🥤', icon: 'cup-soda', label: 'Refrigerantes' },
-      { patterns: ['suco', 'nectar', 'del valle'], emoji: '🧃', icon: 'wine', label: 'Sucos' },
-      { patterns: ['energetico', 'red bull', 'monster'], emoji: '⚡', icon: 'zap', label: 'Energéticos' },
-      { patterns: ['cerveja', 'heineken', 'brahma', 'skol', 'amstel', 'budweiser', 'corona', 'chopp', 'ipa'], emoji: '🍺', icon: 'beer', label: 'Cervejas' },
-      { patterns: ['vinho', 'espumante', 'prosecco', 'champagne'], emoji: '🍷', icon: 'wine', label: 'Vinhos & Espumantes' },
-      { patterns: ['whisky', 'vodka', 'gin', 'cachaca', 'rum', 'tequila', 'licor', 'campari', 'aperol'], emoji: '🥃', icon: 'wine', label: 'Destilados' },
-      { patterns: ['gelo'], emoji: '🧊', icon: 'snowflake', label: 'Gelo' },
+      { patterns: ['agua sem gas', 'agua com gas', 'agua mineral', 'galao de agua', 'agua tonica', 'agua de coco', 'agua'], emoji: '💧', category: '🍺 Bebidas' },
+      { patterns: ['coca cola', 'coca-cola', 'guarana', 'fanta', 'sprite', 'pepsi', 'refrigerante', 'refri', 'isotonico', 'cha gelado'], emoji: '🥤', category: '🍺 Bebidas' },
+      { patterns: ['suco', 'nectar', 'del valle', 'groselha'], emoji: '🧃', category: '🍺 Bebidas' },
+      { patterns: ['energetico', 'red bull', 'monster'], emoji: '⚡', category: '🍺 Bebidas' },
+      { patterns: ['cerveja', 'heineken', 'brahma', 'skol', 'amstel', 'budweiser', 'corona', 'chopp', 'ipa', 'weiss', 'stout', 'witbier', 'porter'], emoji: '🍺', category: '🍺 Bebidas' },
+      { patterns: ['vinho', 'espumante', 'prosecco', 'champagne', 'cabernet', 'malbec', 'sauvignon', 'chardonnay', 'rose', 'moscatel', 'cidra', 'vermute'], emoji: '🍷', category: '🍺 Bebidas' },
+      { patterns: ['whisky', 'vodka', 'gin', 'cachaca', 'rum', 'tequila', 'licor', 'campari', 'aperol', 'cointreau'], emoji: '🥃', category: '🍺 Bebidas' },
+      { patterns: ['gelo'], emoji: '🧊', category: '🍺 Bebidas' },
 
-      // Limpeza & Utilidades
-      { patterns: ['sabao em po', 'sabao liquido', 'lava roupas', 'ariel', 'omo'], emoji: '🧼', icon: 'sparkles', label: 'Lavanderia' },
-      { patterns: ['amaciante', 'comfort', 'downy'], emoji: '🌸', icon: 'sparkles', label: 'Amaciante' },
-      { patterns: ['agua sanitaria', 'cloro', 'alvejante'], emoji: '🧴', icon: 'shield-alert', label: 'Alvejantes' },
-      { patterns: ['detergente', 'ype', 'limpol'], emoji: '🧴', icon: 'sparkles', label: 'Detergente' },
-      { patterns: ['esponja', 'bombril', 'la de aco', 'pano de prato', 'perfex'], emoji: '🧽', icon: 'layers', label: 'Acessórios Pia' },
-      { patterns: ['desinfetante', 'veja', 'multiuso', 'limpa vidros', 'desengordurante'], emoji: '🧴', icon: 'spray-can', label: 'Limpadores' },
-      { patterns: ['saco de lixo', 'lixo'], emoji: '🗑️', icon: 'trash-2', label: 'Sacos de Lixo' },
-      { patterns: ['papel toalha', 'guardanapo', 'papel aluminio', 'pvc', 'filme'], emoji: '🧻', icon: 'scroll', label: 'Descartáveis Papel' },
-      { patterns: ['vassoura', 'rodo', 'balde'], emoji: '🧹', icon: 'hammer', label: 'Limpeza Pesada' },
-      { patterns: ['inseticida', 'repelente', 'baygon', 'raid'], emoji: '🦟', icon: 'spray-can', label: 'Inseticidas' },
+      // Limpeza
+      { patterns: ['sabao em po', 'sabao liquido', 'lava roupas', 'lava-roupas', 'ariel', 'omo', 'tira-manchas', 'sabao em barra', 'sabao de coco', 'sabao'], emoji: '🧼', category: '🧼 Limpeza' },
+      { patterns: ['amaciante', 'comfort', 'downy'], emoji: '🌸', category: '🧼 Limpeza' },
+      { patterns: ['agua sanitaria', 'cloro', 'alvejante'], emoji: '🧴', category: '🧼 Limpeza' },
+      { patterns: ['detergente', 'ype', 'limpol', 'lava-loucas', 'secante'], emoji: '🧴', category: '🧼 Limpeza' },
+      { patterns: ['esponja', 'bombril', 'la de aco', 'palha de aco', 'pano', 'perfex', 'microfibra'], emoji: '🧽', category: '🧼 Limpeza' },
+      { patterns: ['desinfetante', 'veja', 'multiuso', 'limpa vidros', 'limpador', 'lustra moveis', 'cera', 'desengordurante', 'pedra sanitaria', 'bloco sanitario', 'odorizador', 'alcool'], emoji: '🧴', category: '🧼 Limpeza' },
+      { patterns: ['saco de lixo', 'saco para lixo', 'lixo'], emoji: '🗑️', category: '🧼 Limpeza' },
+      { patterns: ['papel toalha', 'toalha de papel', 'guardanapo', 'papel aluminio', 'pvc', 'filme', 'papel manteiga', 'saco para freezer', 'copo descartavel', 'prato descartavel', 'garfo', 'faca', 'palito'], emoji: '🧻', category: '🧼 Limpeza' },
+      { patterns: ['vassoura', 'rodo', 'balde', 'bacia', 'prendedor', 'varal'], emoji: '🧹', category: '🧼 Limpeza' },
+      { patterns: ['inseticida', 'repelente', 'baygon', 'raid', 'pastilha'], emoji: '🦟', category: '🧼 Limpeza' },
 
-      // Higiene & Cuidados Pessoais
-      { patterns: ['papel higienico', 'neve'], emoji: '🧻', icon: 'scroll', label: 'Papel Higiênico' },
-      { patterns: ['sabonete', 'dove', 'palmolive'], emoji: '🧼', icon: 'bath', label: 'Sabonete' },
-      { patterns: ['shampoo', 'condicionador', 'creme de cabelo', 'mascara capilar'], emoji: '🧴', icon: 'bath', label: 'Cabelos' },
-      { patterns: ['pasta de dente', 'creme dental', 'escova de dente', 'fio dental', 'enxaguante', 'colgate'], emoji: '🪥', icon: 'smile', label: 'Higiene Bucal' },
-      { patterns: ['desodorante', 'rexona', 'axe'], emoji: '🧴', icon: 'spray-can', label: 'Desodorante' },
-      { patterns: ['gillette', 'lamina', 'barbeador'], emoji: '🪒', icon: 'scissors', label: 'Barbear' },
-      { patterns: ['absorvente', 'sempre livre', 'intimus'], emoji: '🩸', icon: 'heart', label: 'Cuidados Íntimos' },
-      { patterns: ['hidratante', 'protetor solar', 'alcool gel', 'lenco umedecido', 'cotonete', 'algodao'], emoji: '🧴', icon: 'sparkles', label: 'Cuidados Pele' },
-      { patterns: ['fralda', 'pampers', 'huggies', 'pomada'], emoji: '👶', icon: 'baby', label: 'Infantil' },
+      // Higiene
+      { patterns: ['papel higienico', 'neve', 'lenco de papel'], emoji: '🧻', category: '🧴 Higiene' },
+      { patterns: ['sabonete', 'dove', 'palmolive', 'esponja de banho', 'touca'], emoji: '🧼', category: '🧴 Higiene' },
+      { patterns: ['shampoo', 'condicionador', 'creme de cabelo', 'creme para pentear', 'mascara capilar', 'mascara de hidratacao', 'oleo reparador'], emoji: '🧴', category: '🧴 Higiene' },
+      { patterns: ['pasta de dente', 'creme dental', 'escova de dente', 'escova dental', 'fio dental', 'fita dental', 'enxaguante', 'colgate'], emoji: '🪥', category: '🧴 Higiene' },
+      { patterns: ['desodorante', 'rexona', 'axe'], emoji: '🧴', category: '🧴 Higiene' },
+      { patterns: ['gillette', 'lamina', 'barbeador', 'aparelho de barbear', 'espuma de barbear', 'pos-barba'], emoji: '🪒', category: '🧴 Higiene' },
+      { patterns: ['absorvente', 'sempre livre', 'intimus', 'protetor diario'], emoji: '🩸', category: '🧴 Higiene' },
+      { patterns: ['hidratante', 'protetor solar', 'alcool gel', 'lenco umedecido', 'lencos umedecidos', 'cotonete', 'hastes flexiveis', 'algodao'], emoji: '🧴', category: '🧴 Higiene' },
+      { patterns: ['fralda', 'pampers', 'huggies', 'pomada'], emoji: '👶', category: '🧴 Higiene' },
 
-      // Pet
-      { patterns: ['racao', 'petisco', 'whiskas', 'pedigree', 'areia de gato', 'gato', 'cachorro', 'pet'], emoji: '🐶', icon: 'bone', label: 'Pet Shop' }
+      // Hortifrúti
+      { patterns: ['banana'], emoji: '🍌', category: '🥬 Hortifrúti' },
+      { patterns: ['maca', 'pera', 'pessego', 'ameixa', 'cereja', 'morango', 'acerola', 'amora', 'framboesa', 'mirtilo', 'blueberry', 'lichia', 'caqui', 'roma', 'goiaba', 'figo', 'pitaya', 'tamara', 'damasco', 'uva-passa'], emoji: '🍎', category: '🥬 Hortifrúti' },
+      { patterns: ['laranja', 'mexerica', 'tangerina', 'ponkan', 'bergamota', 'maracuja', 'caju', 'carambola', 'physalis'], emoji: '🍊', category: '🥬 Hortifrúti' },
+      { patterns: ['limao'], emoji: '🍋', category: '🥬 Hortifrúti' },
+      { patterns: ['mamao', 'melancia', 'melao', 'graviola', 'atemoia', 'pinha', 'fruta do conde'], emoji: '🍉', category: '🥬 Hortifrúti' },
+      { patterns: ['abacaxi'], emoji: '🍍', category: '🥬 Hortifrúti' },
+      { patterns: ['manga'], emoji: '🥭', category: '🥬 Hortifrúti' },
+      { patterns: ['uva', 'jabuticaba'], emoji: '🍇', category: '🥬 Hortifrúti' },
+      { patterns: ['abacate', 'avocado', 'kiwi'], emoji: '🥑', category: '🥬 Hortifrúti' },
+      { patterns: ['coco'], emoji: '🥥', category: '🥬 Hortifrúti' },
+      { patterns: ['tomate', 'cebola', 'alho', 'batata', 'mandioquinha', 'cenoura', 'chuchu', 'abobrinha', 'pepino', 'quiabo', 'jilo', 'vagem', 'berinjela', 'beterraba', 'rabanete', 'nabo', 'pimentao', 'abobora', 'cabotia', 'moranga', 'mandioca', 'aipim', 'inhame', 'cara', 'gengibre', 'brocolis', 'couve-flor', 'couve flor', 'alface', 'couve', 'espinafre', 'rucula', 'agriao', 'repolho', 'acelga', 'endivia', 'chicoria', 'escarola', 'mostarda', 'taioba', 'moyashi', 'broto', 'alho-poro', 'aspargo', 'catalonha', 'radicchio', 'cheiro verde', 'salsinha', 'cebolinha', 'coentro', 'hortela', 'manjericao', 'alecrim', 'salvia', 'tomilho'], emoji: '🥬', category: '🥬 Hortifrúti' },
+
+      // Pet & Outros
+      { patterns: ['racao', 'petisco', 'whiskas', 'pedigree', 'areia', 'granulado', 'tapete higienico', 'catnip', 'ossinho', 'bifinho', 'comedouro', 'gato', 'cachorro', 'cães', 'caes', 'pet', 'pilha', 'bateria', 'fosforo', 'acendedor', 'isqueiro', 'vela', 'lampada', 'fita adesiva', 'durex'], emoji: '🐶', category: '🐶 Pet & Outros' }
     ];
 
     /* =====================================================================
@@ -510,32 +627,13 @@
        ===================================================================== */
     const STORAGE_CURRENT = 'marketbuy_current_purchase';
     const STORAGE_HISTORY = 'marketbuy_history';
+    const STORAGE_AVULSOS = 'marketbuy_avulsos';
     const STORAGE_THEME = 'marketbuy_theme';
 
     let currentPurchase = null;
     let purchaseHistory = [];
-
-    // Mock initial sample for first time users
-    const sampleHistory = [
-      {
-        id: 'hist-1',
-        marketName: 'Atacadão BR-230',
-        budgetLimit: 350.00,
-        totalSpent: 312.40,
-        date: '2026-10-24T16:20:00',
-        items: [
-          { id: 1, name: 'Arroz 5kg', mode: 'unit', qty: 2, price: 24.90, subtotal: 49.80, emoji: '🌾' },
-          { id: 2, name: 'Feijão Carioca', mode: 'unit', qty: 3, price: 7.90, subtotal: 23.70, emoji: '🌾' },
-          { id: 3, name: 'Alcatra Bovina', mode: 'weight', qty: 1.620, price: 44.90, subtotal: 72.74, emoji: '🥩' },
-          { id: 4, name: 'Linguiça Toscana', mode: 'weight', qty: 1.150, price: 21.90, subtotal: 25.19, emoji: '🌭' },
-          { id: 5, name: 'Molho de Tomate', mode: 'unit', qty: 4, price: 2.19, subtotal: 8.76, emoji: '🥫' },
-          { id: 6, name: 'Cerveja Puro Malte Lata', mode: 'unit', qty: 12, price: 4.29, subtotal: 51.48, emoji: '🍺' },
-          { id: 7, name: 'Sabão em Pó 2kg', mode: 'unit', qty: 2, price: 26.50, subtotal: 53.00, emoji: '🧼' },
-          { id: 8, name: 'Detergente Limpol', mode: 'unit', qty: 4, price: 2.49, subtotal: 9.96, emoji: '🧴' },
-          { id: 9, name: 'Salsicha Hot Dog', mode: 'unit', qty: 2, price: 8.89, subtotal: 17.78, emoji: '🌭' }
-        ]
-      }
-    ];
+    let avulsoHistory = [];
+    let currentFilter = 'Geral';
 
     /* =====================================================================
        INITIALIZATION
@@ -565,16 +663,25 @@
     function loadStorage() {
       const savedCurrent = localStorage.getItem(STORAGE_CURRENT);
       const savedHist = localStorage.getItem(STORAGE_HISTORY);
+      const savedAvul = localStorage.getItem(STORAGE_AVULSOS);
 
       if (savedCurrent) {
         try { currentPurchase = JSON.parse(savedCurrent); } catch(e) { currentPurchase = null; }
       }
-
       if (savedHist) {
-        try { purchaseHistory = JSON.parse(savedHist); } catch(e) { purchaseHistory = []; }
+        try {
+          const parsed = JSON.parse(savedHist);
+          // Remove automaticamente o item de exemplo antigo ('hist-1') caso tenha ficado salvo no navegador
+          purchaseHistory = Array.isArray(parsed) ? parsed.filter(item => item.id !== 'hist-1') : [];
+          localStorage.setItem(STORAGE_HISTORY, JSON.stringify(purchaseHistory));
+        } catch(e) {
+          purchaseHistory = [];
+        }
       } else {
-        purchaseHistory = sampleHistory;
-        localStorage.setItem(STORAGE_HISTORY, JSON.stringify(purchaseHistory));
+        purchaseHistory = [];
+      }
+      if (savedAvul) {
+        try { avulsoHistory = JSON.parse(savedAvul); } catch(e) { avulsoHistory = []; }
       }
     }
 
@@ -588,6 +695,10 @@
 
     function saveHistoryToStorage() {
       localStorage.setItem(STORAGE_HISTORY, JSON.stringify(purchaseHistory));
+    }
+    
+    function saveAvulsosToStorage() {
+      localStorage.setItem(STORAGE_AVULSOS, JSON.stringify(avulsoHistory));
     }
 
     /* =====================================================================
@@ -605,36 +716,41 @@
     function matchItemIcon(itemName) {
       const normalized = normalizeText(itemName);
       
-      // Explicit priority for user requested sausages
-      if (/linguica|calabresa|salsicha|toscana|paio/.test(normalized)) {
-        return { emoji: '🌭', icon: 'sandwich', label: 'Embutidos' };
-      }
-
       for (const entry of ITEM_CATALOG) {
         for (const p of entry.patterns) {
           const normPattern = normalizeText(p);
           if (normalized.includes(normPattern)) {
-            return entry;
+            return { emoji: entry.emoji, category: entry.category };
           }
         }
       }
-
-      return { emoji: '🛍️', icon: 'shopping-cart', label: 'Geral' };
+      return { emoji: '🛍️', category: '🐶 Pet & Outros' };
     }
 
     /* =====================================================================
-       HISTORICAL PRICE COMPARISON (Feature #3)
+       HISTORICAL PRICE COMPARISON
        ===================================================================== */
     function findPreviousPrice(productName) {
       const targetNorm = normalizeText(productName);
       if (!targetNorm) return null;
 
-      // Scan past completed purchases from newest to oldest
+      // 1. Search in isolated/avulso entries first
+      for (const avulso of avulsoHistory) {
+         const itemNorm = normalizeText(avulso.name);
+         if (itemNorm === targetNorm || itemNorm.includes(targetNorm) || targetNorm.includes(itemNorm)) {
+            return {
+              lastPrice: avulso.price,
+              marketName: avulso.marketName,
+              date: avulso.date
+            };
+         }
+      }
+
+      // 2. Scan past completed purchases from newest to oldest
       for (const purchase of purchaseHistory) {
         if (!purchase.items) continue;
         for (const item of purchase.items) {
           const itemNorm = normalizeText(item.name);
-          // Check for high similarity or containment
           if (itemNorm === targetNorm || itemNorm.includes(targetNorm) || targetNorm.includes(itemNorm)) {
             return {
               lastPrice: item.price,
@@ -649,19 +765,11 @@
     }
 
     /* =====================================================================
-       SMART NATURAL LANGUAGE PARSER (Feature #2)
+       SMART NATURAL LANGUAGE PARSER
        ===================================================================== */
     function parseInputText(rawText) {
       if (!rawText || !rawText.trim()) {
-        return {
-          valid: false,
-          name: '',
-          qty: 1,
-          price: 0,
-          mode: 'unit',
-          subtotal: 0,
-          emoji: '🛒'
-        };
+        return { valid: false, name: '', qty: 1, price: 0, mode: 'unit', subtotal: 0, emoji: '🛒', category: 'Geral' };
       }
 
       let text = rawText.trim();
@@ -670,39 +778,30 @@
       let price = 0;
       let name = '';
 
-      // Check if user specifically wrote 'kg', 'k', 'quilo' anywhere
       const isWeight = /\b(kg|quilo|quilos|kilos|kilo|g)\b/i.test(text);
       if (isWeight) {
         mode = 'weight';
         text = text.replace(/\b(kg|quilo|quilos|kilos|kilo)\b/gi, '').trim();
       }
 
-      // Clean 'un', 'unid', 'unidades'
       text = text.replace(/\b(un|und|unid|unidades|unidade)\b/gi, '').trim();
-
-      // Tokenize by spaces
       const tokens = text.split(/\s+/);
 
-      // Check if first token is quantity or weight (e.g., "2", "1.450", "0,5")
       let firstVal = parseNumericToken(tokens[0]);
       let lastVal = parseNumericToken(tokens[tokens.length - 1]);
 
       if (tokens.length >= 3 && firstVal !== null && lastVal !== null) {
-        // Pattern: [2] [arroz integral] [3.99]
         qty = firstVal;
         price = lastVal;
         name = tokens.slice(1, tokens.length - 1).join(' ');
-        // If first token had decimals, likely weight
         if (tokens[0].includes('.') || tokens[0].includes(',')) {
           mode = 'weight';
         }
       } else if (tokens.length >= 2 && lastVal !== null) {
-        // Pattern: [leite integral] [4.50] -> Qty defaults to 1
         qty = 1;
         price = lastVal;
         name = tokens.slice(0, tokens.length - 1).join(' ');
       } else {
-        // Fallback or partial typing
         name = text;
         qty = 1;
         price = 0;
@@ -710,7 +809,6 @@
 
       name = name.replace(/^[\s,.-]+|[\s,.-]+$/g, '');
       const itemInfo = matchItemIcon(name);
-
       const subtotal = Math.round((qty * price) * 100) / 100;
 
       return {
@@ -721,17 +819,14 @@
         mode: mode,
         subtotal: subtotal,
         emoji: itemInfo.emoji,
-        icon: itemInfo.icon
+        category: itemInfo.category
       };
     }
 
     function parseNumericToken(token) {
       if (!token) return null;
-      // remove currency prefixes
       let clean = token.replace(/^(r\$|\$)/i, '').trim();
-      // Remove trailing characters like 'kg', 'un', 'g' that might be attached
       clean = clean.replace(/[a-zA-Z]+$/g, '');
-      // Replace comma with dot for standard JS float conversion
       clean = clean.replace(',', '.');
       const num = parseFloat(clean);
       return (!isNaN(num) && num > 0) ? num : null;
@@ -760,7 +855,7 @@
         nameEl.textContent = 'Comece a digitar...';
         compEl.textContent = 'Preço: R$ 0,00';
         subtotalEl.textContent = 'R$ 0,00';
-        previewBox.className = "p-3 bg-slate-100 dark:bg-slate-900/60 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 flex items-center justify-between text-xs transition";
+        previewBox.className = "p-2 bg-slate-100 dark:bg-slate-900/60 rounded-xl border border-slate-200/80 dark:border-slate-800/80 flex items-center justify-between text-[11px] transition";
         return;
       }
 
@@ -769,29 +864,28 @@
       qtyModeEl.textContent = parsed.mode === 'weight' ? `${parsed.qty.toFixed(3)} kg` : `${parsed.qty} un`;
       subtotalEl.textContent = formatCurrency(parsed.subtotal);
 
-      // Check historical comparison
       const historyMatch = findPreviousPrice(parsed.name);
       if (historyMatch && parsed.price > 0) {
         const diff = parsed.price - historyMatch.lastPrice;
         const formattedLast = formatCurrency(historyMatch.lastPrice);
         
         if (Math.abs(diff) < 0.02) {
-          compEl.innerHTML = `<span class="text-slate-500 font-medium">Mesmo preço da última compra (${formattedLast})</span>`;
+          compEl.innerHTML = `<span class="text-slate-500 font-medium">Mesmo preço da última (${formattedLast})</span>`;
         } else if (diff > 0) {
           compEl.innerHTML = `<span class="text-rose-500 font-bold">▲ +${formatCurrency(diff)} mais caro</span> vs última (${formattedLast})`;
         } else {
           compEl.innerHTML = `<span class="text-emerald-500 font-bold">▼ -${formatCurrency(Math.abs(diff))} mais barato!</span> vs última (${formattedLast})`;
         }
       } else if (parsed.price > 0) {
-        compEl.innerHTML = `<span class="text-slate-500">Unitário: ${formatCurrency(parsed.price)} (Item novo no histórico)</span>`;
+        compEl.innerHTML = `<span class="text-slate-500">Unitário: ${formatCurrency(parsed.price)} (Novo)</span>`;
       } else {
-        compEl.textContent = 'Digite o valor do produto...';
+        compEl.textContent = 'Digite o valor...';
       }
 
       if (parsed.valid) {
-        previewBox.className = "p-3 bg-emerald-50/70 dark:bg-emerald-950/30 rounded-2xl border border-emerald-300 dark:border-emerald-800 flex items-center justify-between text-xs transition";
+        previewBox.className = "p-2 bg-emerald-50/70 dark:bg-emerald-950/30 rounded-xl border border-emerald-300 dark:border-emerald-800 flex items-center justify-between text-[11px] transition";
       } else {
-        previewBox.className = "p-3 bg-slate-100 dark:bg-slate-900/60 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 flex items-center justify-between text-xs transition";
+        previewBox.className = "p-2 bg-slate-100 dark:bg-slate-900/60 rounded-xl border border-slate-200/80 dark:border-slate-800/80 flex items-center justify-between text-[11px] transition";
       }
     }
 
@@ -817,7 +911,8 @@
         qty: parsed.qty,
         price: parsed.price,
         subtotal: parsed.subtotal,
-        emoji: parsed.emoji
+        emoji: parsed.emoji,
+        category: parsed.category
       };
 
       currentPurchase.items.unshift(newItem);
@@ -826,13 +921,33 @@
       input.value = '';
       updateParserPreview('');
       showToast(`${newItem.emoji} "${newItem.name}" adicionado!`);
-      renderActivePurchase();
+      
+      if (currentFilter !== 'Geral' && currentFilter !== newItem.category) {
+         filterCart('Geral');
+      } else {
+         renderActivePurchase();
+      }
+      
       input.focus();
     }
 
     /* =====================================================================
-       PURCHASE ACTIONS (Start, Delete, Finish, Cancel)
+       PURCHASE ACTIONS & FILTERS
        ===================================================================== */
+    function filterCart(category) {
+       currentFilter = category;
+       const chips = document.querySelectorAll('.filter-chip');
+       chips.forEach(chip => {
+          if (chip.textContent.trim() === category) {
+             chip.classList.add('active');
+             chip.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+          } else {
+             chip.classList.remove('active');
+          }
+       });
+       renderActivePurchase();
+    }
+
     function handleStartPurchase(event) {
       event.preventDefault();
       const marketName = document.getElementById('setupMarketName').value.trim();
@@ -853,6 +968,7 @@
 
       saveCurrentToStorage();
       document.getElementById('startPurchaseForm').reset();
+      filterCart('Geral');
       showToast('Compra iniciada com sucesso!');
       renderApp();
     }
@@ -865,6 +981,249 @@
       showToast('Item removido.');
     }
 
+    /* =====================================================================
+       EDIT ITEM LOGIC
+       ===================================================================== */
+    function openEditModal(itemId) {
+       if (!currentPurchase) return;
+       const item = currentPurchase.items.find(i => i.id === itemId);
+       if (!item) return;
+
+       document.getElementById('editItemId').value = item.id;
+       document.getElementById('editItemName').value = item.name;
+       document.getElementById('editItemMode').value = item.mode;
+       document.getElementById('editItemQty').value = item.qty;
+       document.getElementById('editItemPrice').value = item.price;
+       
+       document.getElementById('editItemModal').classList.remove('hidden');
+       lucide.createIcons();
+    }
+
+    function closeEditModal() {
+       document.getElementById('editItemModal').classList.add('hidden');
+    }
+
+    function saveEditedItem(e) {
+       e.preventDefault();
+       const id = parseInt(document.getElementById('editItemId').value);
+       const name = document.getElementById('editItemName').value.trim();
+       const mode = document.getElementById('editItemMode').value;
+       const qty = parseFloat(document.getElementById('editItemQty').value);
+       const price = parseFloat(document.getElementById('editItemPrice').value);
+
+       if (!name || isNaN(qty) || isNaN(price)) return;
+
+       const idx = currentPurchase.items.findIndex(i => i.id === id);
+       if (idx !== -1) {
+          const matched = matchItemIcon(name);
+          currentPurchase.items[idx].name = name;
+          currentPurchase.items[idx].mode = mode;
+          currentPurchase.items[idx].qty = qty;
+          currentPurchase.items[idx].price = price;
+          currentPurchase.items[idx].subtotal = Math.round((qty * price) * 100) / 100;
+          currentPurchase.items[idx].emoji = matched.emoji;
+          currentPurchase.items[idx].category = matched.category;
+          
+          saveCurrentToStorage();
+          renderActivePurchase();
+          closeEditModal();
+          showToast('Item atualizado com sucesso.');
+       }
+    }
+
+    /* =====================================================================
+       AVULSO (ISOLATED) ITEM LOGIC
+       ===================================================================== */
+    function openAvulsoModal() {
+       document.getElementById('avulsoForm').reset();
+       document.getElementById('avulsoId').value = '';
+       document.getElementById('avulsoQty').value = '1';
+       document.getElementById('avulsoModalTitle').innerHTML = `<i data-lucide="plus-circle" class="w-4 h-4 text-emerald-500"></i> Preço Avulso`;
+       document.getElementById('avulsoSubmitBtn').textContent = 'Cadastrar Referência';
+       document.getElementById('avulsoModal').classList.remove('hidden');
+       lucide.createIcons();
+    }
+
+    function openEditAvulsoModal(avulsoId) {
+       const item = avulsoHistory.find(a => a.id === avulsoId);
+       if (!item) return;
+
+       document.getElementById('avulsoId').value = item.id;
+       document.getElementById('avulsoName').value = item.name;
+       document.getElementById('avulsoLocal').value = item.marketName;
+       document.getElementById('avulsoMode').value = item.mode || 'unit';
+       document.getElementById('avulsoQty').value = item.qty || 1;
+       document.getElementById('avulsoPrice').value = item.price;
+
+       document.getElementById('avulsoModalTitle').innerHTML = `<i data-lucide="edit-3" class="w-4 h-4 text-emerald-500"></i> Editar Item Avulso`;
+       document.getElementById('avulsoSubmitBtn').textContent = 'Salvar Alterações';
+       document.getElementById('avulsoModal').classList.remove('hidden');
+       lucide.createIcons();
+    }
+
+    function handleDeleteAvulso(avulsoId) {
+       avulsoHistory = avulsoHistory.filter(a => a.id !== avulsoId);
+       saveAvulsosToStorage();
+       handleSearch();
+       if (currentPurchase) renderActivePurchase();
+       showToast('Item avulso excluído.');
+    }
+    
+    function closeAvulsoModal() {
+       document.getElementById('avulsoModal').classList.add('hidden');
+       document.getElementById('avulsoForm').reset();
+       document.getElementById('avulsoId').value = '';
+    }
+
+    function saveAvulsoItem(e) {
+       e.preventDefault();
+       const existingId = document.getElementById('avulsoId').value;
+       const name = document.getElementById('avulsoName').value.trim();
+       const local = document.getElementById('avulsoLocal').value.trim();
+       const mode = document.getElementById('avulsoMode').value;
+       const qty = parseFloat(document.getElementById('avulsoQty').value) || 1;
+       const price = parseFloat(document.getElementById('avulsoPrice').value);
+
+       if (!name || !local || isNaN(price)) return;
+
+       const itemInfo = matchItemIcon(name);
+       const subtotal = Math.round((qty * price) * 100) / 100;
+
+       if (existingId) {
+          const idx = avulsoHistory.findIndex(a => a.id === existingId);
+          if (idx !== -1) {
+             avulsoHistory[idx].name = capitalize(name);
+             avulsoHistory[idx].marketName = local;
+             avulsoHistory[idx].mode = mode;
+             avulsoHistory[idx].qty = qty;
+             avulsoHistory[idx].price = price;
+             avulsoHistory[idx].subtotal = subtotal;
+             avulsoHistory[idx].emoji = itemInfo.emoji;
+          }
+          showToast('Item avulso atualizado!');
+       } else {
+          avulsoHistory.unshift({
+             id: 'avulso-' + Date.now(),
+             name: capitalize(name),
+             marketName: local,
+             mode: mode,
+             qty: qty,
+             price: price,
+             subtotal: subtotal,
+             emoji: itemInfo.emoji,
+             date: new Date().toISOString()
+          });
+          showToast('Referência cadastrada!');
+       }
+
+       saveAvulsosToStorage();
+       closeAvulsoModal();
+       handleSearch();
+       if (currentPurchase) renderActivePurchase();
+    }
+
+    /* =====================================================================
+       SEARCH LOGIC
+       ===================================================================== */
+    function handleSearch() {
+       const q = normalizeText(document.getElementById('searchInput').value);
+       const list = document.getElementById('searchResultsList');
+       const empty = document.getElementById('searchEmptyState');
+       list.innerHTML = '';
+
+       let results = [];
+       
+       avulsoHistory.forEach(a => {
+          if (!q || normalizeText(a.name).includes(q) || normalizeText(a.marketName).includes(q)) {
+             results.push({
+                id: a.id,
+                name: a.name,
+                emoji: a.emoji,
+                price: a.price,
+                qty: a.qty || 1,
+                mode: a.mode || 'unit',
+                subtotal: a.subtotal || a.price,
+                market: a.marketName,
+                date: a.date,
+                source: 'avulso'
+             });
+          }
+       });
+
+       purchaseHistory.forEach(p => {
+          if (!p.items) return;
+          p.items.forEach(i => {
+             if (!q || normalizeText(i.name).includes(q) || normalizeText(p.marketName).includes(q)) {
+                results.push({
+                   id: i.id,
+                   name: i.name,
+                   emoji: i.emoji,
+                   price: i.price,
+                   qty: i.qty || 1,
+                   mode: i.mode || 'unit',
+                   subtotal: i.subtotal || i.price,
+                   market: p.marketName,
+                   date: p.date,
+                   source: 'history'
+                });
+             }
+          });
+       });
+
+       if (results.length === 0) {
+          empty.textContent = q ? "Nenhum preço encontrado para essa busca." : "Digite acima para pesquisar seus itens ou adicione um preço avulso.";
+          empty.classList.remove('hidden');
+          return;
+       }
+
+       empty.classList.add('hidden');
+       results.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+       results.forEach(r => {
+          const d = new Date(r.date).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
+          const qtyFormatted = r.mode === 'weight' ? `${Number(r.qty).toFixed(3)} kg` : `${r.qty} un`;
+          const unitLabel = r.mode === 'weight' ? '/kg' : '/un';
+
+          const avulsoActions = r.source === 'avulso' ? `
+             <div class="flex items-center gap-0.5 ml-1.5 pl-1.5 border-l border-slate-200 dark:border-slate-700">
+               <button onclick="openEditAvulsoModal('${r.id}')" title="Editar item avulso" class="p-1.5 text-slate-400 hover:text-emerald-500 transition rounded-md hover:bg-slate-200/60 dark:hover:bg-slate-700">
+                 <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+               </button>
+               <button onclick="handleDeleteAvulso('${r.id}')" title="Excluir item avulso" class="p-1.5 text-slate-400 hover:text-rose-500 transition rounded-md hover:bg-slate-200/60 dark:hover:bg-slate-700">
+                 <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+               </button>
+             </div>
+          ` : '';
+
+          const li = document.createElement('li');
+          li.className = "flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-800";
+          li.innerHTML = `
+             <div class="flex items-center gap-2.5 min-w-0">
+               <span class="text-xl shrink-0">${r.emoji || '🛍️'}</span>
+               <div class="min-w-0">
+                 <div class="flex items-center gap-1.5">
+                   <p class="font-bold text-sm text-slate-800 dark:text-slate-100 truncate">${escapeHTML(r.name)}</p>
+                   <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-100/70 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 shrink-0">${qtyFormatted}</span>
+                 </div>
+                 <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 truncate">${escapeHTML(r.market)} • ${d}</p>
+               </div>
+             </div>
+             <div class="flex items-center shrink-0 pl-2">
+               <div class="text-right">
+                 <p class="font-black text-sm text-emerald-600 dark:text-emerald-400">${formatCurrency(r.price)}<span class="text-[10px] font-semibold text-slate-400">${unitLabel}</span></p>
+                 <p class="text-[10px] text-slate-400 font-semibold">Total: ${formatCurrency(r.subtotal)}</p>
+               </div>
+               ${avulsoActions}
+             </div>
+          `;
+          list.appendChild(li);
+       });
+       lucide.createIcons();
+    }
+
+    /* =====================================================================
+       FINALIZE / DISCARD / HISTORY
+       ===================================================================== */
     function handleFinishPurchase() {
       if (!currentPurchase) return;
       if (currentPurchase.items.length === 0) {
@@ -892,54 +1251,36 @@
       switchView('history');
     }
 
-    /* =====================================================================
-       DISCARD MODAL & HANDLERS (Custom modal, fully responsive)
-       ===================================================================== */
     function openDiscardModal(e) {
-      if (e) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
+      if (e) { e.preventDefault(); e.stopPropagation(); }
       const modal = document.getElementById('discardModal');
-      if (modal) {
-        modal.classList.remove('hidden');
-        lucide.createIcons();
-      }
+      if (modal) { modal.classList.remove('hidden'); lucide.createIcons(); }
     }
 
     function closeDiscardModal() {
       const modal = document.getElementById('discardModal');
-      if (modal) {
-        modal.classList.add('hidden');
-      }
+      if (modal) { modal.classList.add('hidden'); }
     }
 
     function confirmDiscardPurchase() {
       closeDiscardModal();
       currentPurchase = null;
       saveCurrentToStorage();
-
-      // Clear quick inputs
       const smartInp = document.getElementById('smartInput');
       if (smartInp) smartInp.value = '';
       updateParserPreview('');
-
       showToast('Compra descartada com sucesso.');
       renderApp();
     }
 
     function handleClearHistory() {
       if (purchaseHistory.length === 0) return;
-      if (!confirm('Deseja apagar todo o histórico de compras anteriores?')) return;
       purchaseHistory = [];
       saveHistoryToStorage();
       renderHistoryList();
       showToast('Histórico apagado.');
     }
 
-    /* =====================================================================
-       CSV EXPORT (Feature #7)
-       ===================================================================== */
     function exportHistoryCSV() {
       if (purchaseHistory.length === 0) {
         showToast('Histórico vazio para exportar.');
@@ -973,30 +1314,35 @@
       const viewSetup = document.getElementById('viewSetup');
       const viewActive = document.getElementById('viewActive');
       const viewHistory = document.getElementById('viewHistory');
+      const viewSearch = document.getElementById('viewSearch');
 
       const tabActiveBtn = document.getElementById('tabActiveBtn');
       const tabHistoryBtn = document.getElementById('tabHistoryBtn');
+      const tabSearchBtn = document.getElementById('tabSearchBtn');
+
+      [tabActiveBtn, tabHistoryBtn, tabSearchBtn].forEach(btn => {
+         btn.className = "px-2 py-1 rounded-lg transition-all text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 font-semibold whitespace-nowrap";
+      });
+
+      viewSetup.classList.add('hidden');
+      viewActive.classList.add('hidden');
+      viewHistory.classList.add('hidden');
+      viewSearch.classList.add('hidden');
 
       if (tab === 'history') {
-        viewSetup.classList.add('hidden');
-        viewActive.classList.add('hidden');
         viewHistory.classList.remove('hidden');
-
-        tabHistoryBtn.className = "px-3 py-1.5 rounded-lg transition-all shadow-sm bg-white dark:bg-slate-700 text-slate-900 dark:text-white font-bold";
-        tabActiveBtn.className = "px-3 py-1.5 rounded-lg transition-all text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 font-semibold";
-        
+        tabHistoryBtn.className = "px-2 py-1 rounded-lg transition-all shadow-sm bg-white dark:bg-slate-700 text-slate-900 dark:text-white font-bold whitespace-nowrap";
         renderHistoryList();
+      } else if (tab === 'search') {
+        viewSearch.classList.remove('hidden');
+        tabSearchBtn.className = "px-2 py-1 rounded-lg transition-all shadow-sm bg-white dark:bg-slate-700 text-slate-900 dark:text-white font-bold whitespace-nowrap";
+        handleSearch();
       } else {
-        viewHistory.classList.add('hidden');
-        tabActiveBtn.className = "px-3 py-1.5 rounded-lg transition-all shadow-sm bg-white dark:bg-slate-700 text-slate-900 dark:text-white font-bold";
-        tabHistoryBtn.className = "px-3 py-1.5 rounded-lg transition-all text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 font-semibold";
-
+        tabActiveBtn.className = "px-2 py-1 rounded-lg transition-all shadow-sm bg-white dark:bg-slate-700 text-slate-900 dark:text-white font-bold whitespace-nowrap";
         if (currentPurchase) {
-          viewSetup.classList.add('hidden');
           viewActive.classList.remove('hidden');
           renderActivePurchase();
         } else {
-          viewActive.classList.add('hidden');
           viewSetup.classList.remove('hidden');
         }
       }
@@ -1004,13 +1350,7 @@
     }
 
     function renderApp() {
-      if (currentPurchase) {
-        document.getElementById('headerStatusSubtitle').textContent = currentPurchase.marketName;
-        switchView('active');
-      } else {
-        document.getElementById('headerStatusSubtitle').textContent = 'Pronto para comprar';
-        switchView('active');
-      }
+      switchView('active');
     }
 
     function calculateCurrentTotal() {
@@ -1028,12 +1368,9 @@
 
       // Update Texts
       document.getElementById('activeStoreBadge').textContent = currentPurchase.marketName;
-      document.getElementById('headerStatusSubtitle').textContent = currentPurchase.marketName;
       document.getElementById('totalSpentText').textContent = formatCurrency(total);
       document.getElementById('targetBudgetSpan').textContent = `Teto: ${formatCurrency(limit)}`;
-      document.getElementById('cartSumPreview').textContent = `Total: ${formatCurrency(total)}`;
-      document.getElementById('cartCountBadge').textContent = currentPurchase.items.length;
-
+      
       const remainingEl = document.getElementById('remainingBudgetText');
       const progressBar = document.getElementById('budgetProgressBar');
       const percentBadge = document.getElementById('budgetPercentLabel');
@@ -1046,78 +1383,87 @@
       // Status Visuals
       if (percent < 75) {
         remainingEl.textContent = formatCurrency(remaining);
-        remainingEl.className = "text-lg font-black text-emerald-400";
+        remainingEl.className = "text-base font-black text-emerald-400";
         progressBar.style.width = `${Math.min(percent, 100)}%`;
         progressBar.className = "h-full rounded-full transition-all duration-300 bg-emerald-500";
-        percentBadge.className = "text-[11px] font-black px-2.5 py-1 rounded-full bg-emerald-950/80 text-emerald-400 border border-emerald-800";
-        budgetGlow.className = "absolute -right-10 -bottom-10 w-48 h-48 rounded-full bg-emerald-500/15 blur-2xl pointer-events-none transition-colors duration-500";
+        percentBadge.className = "text-[10px] font-black px-2 py-0.5 rounded-full bg-emerald-950/80 text-emerald-400 border border-emerald-800";
+        budgetGlow.className = "absolute -right-10 -bottom-10 w-40 h-40 rounded-full bg-emerald-500/15 blur-2xl pointer-events-none transition-colors duration-500";
         alertBanner.classList.add('hidden');
       } else if (percent >= 75 && percent <= 95) {
         remainingEl.textContent = formatCurrency(remaining);
-        remainingEl.className = "text-lg font-black text-amber-400";
+        remainingEl.className = "text-base font-black text-amber-400";
         progressBar.style.width = `${Math.min(percent, 100)}%`;
         progressBar.className = "h-full rounded-full transition-all duration-300 bg-amber-400";
-        percentBadge.className = "text-[11px] font-black px-2.5 py-1 rounded-full bg-amber-950/80 text-amber-300 border border-amber-800";
-        budgetGlow.className = "absolute -right-10 -bottom-10 w-48 h-48 rounded-full bg-amber-500/20 blur-2xl pointer-events-none transition-colors duration-500";
+        percentBadge.className = "text-[10px] font-black px-2 py-0.5 rounded-full bg-amber-950/80 text-amber-300 border border-amber-800";
+        budgetGlow.className = "absolute -right-10 -bottom-10 w-40 h-40 rounded-full bg-amber-500/20 blur-2xl pointer-events-none transition-colors duration-500";
         alertBanner.classList.remove('hidden');
-        alertBanner.className = "mt-3 pt-2.5 border-t border-amber-500/30 flex items-center gap-2 text-xs font-bold text-amber-300";
-        alertBannerMsg.textContent = "Atenção: Você atingiu mais de 75% do teto estipulado!";
+        alertBanner.className = "mt-2 pt-2 border-t border-amber-500/30 flex items-center gap-1.5 text-[11px] font-bold text-amber-300";
+        alertBannerMsg.textContent = "Atenção: Você atingiu mais de 75% do teto!";
       } else {
         const isExceeded = remaining < 0;
         remainingEl.textContent = isExceeded ? `- ${formatCurrency(Math.abs(remaining))}` : formatCurrency(remaining);
-        remainingEl.className = "text-lg font-black text-rose-400";
+        remainingEl.className = "text-base font-black text-rose-400";
         progressBar.style.width = '100%';
         progressBar.className = "h-full rounded-full transition-all duration-300 bg-rose-500 pulse-danger";
-        percentBadge.className = "text-[11px] font-black px-2.5 py-1 rounded-full bg-rose-950/90 text-rose-300 border border-rose-800 animate-pulse";
-        budgetGlow.className = "absolute -right-10 -bottom-10 w-48 h-48 rounded-full bg-rose-600/35 blur-2xl pointer-events-none transition-colors duration-500";
+        percentBadge.className = "text-[10px] font-black px-2 py-0.5 rounded-full bg-rose-950/90 text-rose-300 border border-rose-800 animate-pulse";
+        budgetGlow.className = "absolute -right-10 -bottom-10 w-40 h-40 rounded-full bg-rose-600/35 blur-2xl pointer-events-none transition-colors duration-500";
         alertBanner.classList.remove('hidden');
-        alertBanner.className = "mt-3 pt-2.5 border-t border-rose-500/30 flex items-center gap-2 text-xs font-black text-rose-400";
-        alertBannerMsg.textContent = isExceeded 
-          ? `Alerta: Teto estourado em ${formatCurrency(Math.abs(remaining))}!` 
-          : "Limite quase esgotado! Menos de 5% restante.";
+        alertBanner.className = "mt-2 pt-2 border-t border-rose-500/30 flex items-center gap-1.5 text-[11px] font-black text-rose-400";
+        alertBannerMsg.textContent = isExceeded ? `Estourado em ${formatCurrency(Math.abs(remaining))}!` : "Limite esgotado!";
       }
 
-      // Render Cart List
+      // Filter Logic
       const listEl = document.getElementById('cartItemsList');
       const emptyEl = document.getElementById('cartEmptyState');
       listEl.innerHTML = '';
+      
+      let itemsToRender = currentPurchase.items;
+      if (currentFilter !== 'Geral') {
+         itemsToRender = currentPurchase.items.filter(it => it.category === currentFilter);
+      }
 
-      if (currentPurchase.items.length === 0) {
+      document.getElementById('cartCountBadge').textContent = itemsToRender.length;
+      const subtotalFiltered = itemsToRender.reduce((a, b) => a + (b.subtotal || 0), 0);
+      document.getElementById('cartSumPreview').textContent = `Total: ${formatCurrency(subtotalFiltered)}`;
+
+      if (itemsToRender.length === 0) {
         emptyEl.classList.remove('hidden');
       } else {
         emptyEl.classList.add('hidden');
-        currentPurchase.items.forEach(item => {
+        itemsToRender.forEach(item => {
           const qtyText = item.mode === 'weight' ? `${item.qty.toFixed(3)} kg` : `${item.qty} un`;
           const priceDetail = item.mode === 'weight' ? `${formatCurrency(item.price)}/kg` : `${formatCurrency(item.price)} cd`;
 
-          // Historical comparison tag
           const prevInfo = findPreviousPrice(item.name);
           let comparisonTag = '';
           if (prevInfo) {
             const diff = item.price - prevInfo.lastPrice;
             if (diff > 0.02) {
-              comparisonTag = `<span class="inline-flex items-center text-[10px] font-bold text-rose-500 bg-rose-50 dark:bg-rose-950/40 px-1.5 py-0.5 rounded ml-1">▲ +${formatCurrency(diff)}</span>`;
+              comparisonTag = `<span class="inline-flex items-center text-[9px] font-bold text-rose-500 bg-rose-50 dark:bg-rose-950/40 px-1 py-0.5 rounded ml-1">▲ +${formatCurrency(diff)}</span>`;
             } else if (diff < -0.02) {
-              comparisonTag = `<span class="inline-flex items-center text-[10px] font-bold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 px-1.5 py-0.5 rounded ml-1">▼ -${formatCurrency(Math.abs(diff))}</span>`;
+              comparisonTag = `<span class="inline-flex items-center text-[9px] font-bold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 px-1 py-0.5 rounded ml-1">▼ -${formatCurrency(Math.abs(diff))}</span>`;
             }
           }
 
           const li = document.createElement('li');
-          li.className = "flex items-center justify-between p-3.5 bg-white dark:bg-slate-800/80 rounded-2xl border border-slate-200/70 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition shadow-xs";
+          li.className = "flex items-center justify-between p-2.5 bg-white dark:bg-slate-800/80 rounded-xl border border-slate-200/70 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition shadow-sm";
           li.innerHTML = `
-            <div class="flex items-center gap-3 min-w-0">
-              <span class="text-2xl shrink-0 p-1 rounded-xl bg-slate-50 dark:bg-slate-700/60">${item.emoji || '🛍️'}</span>
+            <div class="flex items-center gap-2.5 min-w-0">
+              <span class="text-xl shrink-0 w-8 h-8 flex items-center justify-center rounded-lg bg-slate-50 dark:bg-slate-700/60">${item.emoji || '🛍️'}</span>
               <div class="min-w-0">
                 <div class="flex items-center flex-wrap">
-                  <span class="font-bold text-sm text-slate-800 dark:text-slate-100 truncate">${escapeHTML(item.name)}</span>
+                  <span class="font-bold text-[13px] text-slate-800 dark:text-slate-100 truncate pr-1">${escapeHTML(item.name)}</span>
                   ${comparisonTag}
                 </div>
-                <p class="text-[11px] text-slate-400 font-medium mt-0.5">${qtyText} × ${priceDetail}</p>
+                <p class="text-[10px] text-slate-400 font-medium mt-0.5">${qtyText} × ${priceDetail}</p>
               </div>
             </div>
-            <div class="flex items-center gap-2 shrink-0">
-              <span class="font-black text-sm text-slate-900 dark:text-white">${formatCurrency(item.subtotal)}</span>
-              <button onclick="handleDeleteItem(${item.id})" title="Remover produto" class="p-1.5 text-slate-400 hover:text-rose-500 transition rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700">
+            <div class="flex items-center gap-1.5 shrink-0 pl-1">
+              <span class="font-black text-[13px] text-slate-900 dark:text-white pr-1">${formatCurrency(item.subtotal)}</span>
+              <button onclick="openEditModal(${item.id})" title="Editar item" class="p-1.5 text-slate-400 hover:text-emerald-500 transition rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
+                <i data-lucide="edit-3" class="w-4 h-4"></i>
+              </button>
+              <button onclick="handleDeleteItem(${item.id})" title="Remover item" class="p-1.5 text-slate-400 hover:text-rose-500 transition rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
                 <i data-lucide="trash-2" class="w-4 h-4"></i>
               </button>
             </div>
@@ -1137,29 +1483,27 @@
         emptyState.classList.remove('hidden');
         return;
       }
-
       emptyState.classList.add('hidden');
 
       purchaseHistory.forEach((record) => {
         const dateObj = new Date(record.date);
         const formattedDate = dateObj.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
-        const formattedTime = dateObj.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
         
         const isOverBudget = record.totalSpent > record.budgetLimit;
         const diff = record.budgetLimit - record.totalSpent;
 
         const card = document.createElement('div');
-        card.className = "bg-white dark:bg-slate-800/80 rounded-3xl border border-slate-200/80 dark:border-slate-800 p-4 shadow-sm transition hover:shadow-md";
+        card.className = "bg-white dark:bg-slate-800/80 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-3.5 shadow-sm";
 
         let itemsAccordionHTML = '';
         if (record.items && record.items.length > 0) {
           itemsAccordionHTML = record.items.map(it => `
-            <div class="flex items-center justify-between py-1.5 text-xs border-b border-slate-100 dark:border-slate-700/50 last:border-none">
-              <div class="flex items-center gap-2">
+            <div class="flex items-center justify-between py-1 text-[11px] border-b border-slate-100 dark:border-slate-700/50 last:border-none">
+              <div class="flex items-center gap-1.5">
                 <span>${it.emoji || '🛍️'}</span>
                 <div>
                   <span class="font-semibold text-slate-700 dark:text-slate-300">${escapeHTML(it.name)}</span>
-                  <span class="text-[11px] text-slate-400 ml-1">(${it.mode === 'weight' ? it.qty.toFixed(3) + ' kg' : it.qty + ' un'} × ${formatCurrency(it.price)})</span>
+                  <span class="text-[9px] text-slate-400 ml-1">(${it.mode === 'weight' ? it.qty.toFixed(3) + 'kg' : it.qty + 'un'})</span>
                 </div>
               </div>
               <span class="font-bold text-slate-800 dark:text-slate-200">${formatCurrency(it.subtotal)}</span>
@@ -1169,40 +1513,37 @@
 
         card.innerHTML = `
           <div class="flex items-start justify-between">
-            <div class="flex items-center gap-2.5">
-              <div class="w-10 h-10 rounded-2xl ${isOverBudget ? 'bg-rose-50 dark:bg-rose-950/40 text-rose-500' : 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-500'} flex items-center justify-center font-bold">
-                <i data-lucide="${isOverBudget ? 'alert-triangle' : 'check'}" class="w-5 h-5"></i>
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 rounded-xl ${isOverBudget ? 'bg-rose-50 dark:bg-rose-950/40 text-rose-500' : 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-500'} flex items-center justify-center font-bold">
+                <i data-lucide="${isOverBudget ? 'alert-triangle' : 'check'}" class="w-4 h-4"></i>
               </div>
               <div>
-                <h4 class="font-extrabold text-sm text-slate-900 dark:text-white leading-tight">${escapeHTML(record.marketName)}</h4>
-                <p class="text-[11px] text-slate-400 font-medium">${formattedDate} às ${formattedTime}</p>
+                <h4 class="font-bold text-[13px] text-slate-900 dark:text-white leading-tight">${escapeHTML(record.marketName)}</h4>
+                <p class="text-[10px] text-slate-400 font-medium">${formattedDate}</p>
               </div>
             </div>
             <div class="text-right">
-              <p class="text-base font-black text-slate-900 dark:text-white">${formatCurrency(record.totalSpent)}</p>
-              <p class="text-[11px] font-bold ${isOverBudget ? 'text-rose-500' : 'text-emerald-500'}">
-                ${isOverBudget ? `Estourou em +${formatCurrency(Math.abs(diff))}` : `Economizou ${formatCurrency(diff)}`}
+              <p class="text-sm font-black text-slate-900 dark:text-white">${formatCurrency(record.totalSpent)}</p>
+              <p class="text-[9px] font-bold ${isOverBudget ? 'text-rose-500' : 'text-emerald-500'}">
+                ${isOverBudget ? `Estourou +${formatCurrency(Math.abs(diff))}` : `Economizou ${formatCurrency(diff)}`}
               </p>
             </div>
           </div>
 
-          <div class="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-700/70 flex items-center justify-between text-xs">
+          <div class="mt-2.5 pt-2 border-t border-slate-100 dark:border-slate-700/70 flex items-center justify-between text-[11px]">
             <span class="text-slate-500 dark:text-slate-400 font-medium">Teto: <strong>${formatCurrency(record.budgetLimit)}</strong></span>
             <button onclick="toggleHistoryDetails('${record.id}')" class="text-emerald-600 dark:text-emerald-400 font-bold hover:underline flex items-center gap-1">
-              <span>${record.items?.length || 0} produtos</span>
-              <i data-lucide="chevron-down" id="arrow-${record.id}" class="w-3.5 h-3.5 transition-transform duration-200"></i>
+              <span>${record.items?.length || 0} prod.</span>
+              <i data-lucide="chevron-down" id="arrow-${record.id}" class="w-3 h-3 transition-transform duration-200"></i>
             </button>
           </div>
 
-          <!-- Collapsible details -->
-          <div id="details-${record.id}" class="hidden mt-3 pt-2 border-t border-slate-100 dark:border-slate-700/60 bg-slate-50/70 dark:bg-slate-900/50 -mx-4 -mb-4 p-4 rounded-b-3xl">
-            <p class="text-[11px] font-black uppercase tracking-wider text-slate-400 mb-2">Lista da Nota:</p>
-            <div class="space-y-1">
-              ${itemsAccordionHTML || '<p class="text-xs text-slate-400">Nenhum detalhe listado.</p>'}
+          <div id="details-${record.id}" class="hidden mt-2 pt-2 border-t border-slate-100 dark:border-slate-700/60 bg-slate-50/70 dark:bg-slate-900/50 -mx-3.5 -mb-3.5 p-3 rounded-b-2xl">
+            <div class="space-y-0.5">
+              ${itemsAccordionHTML || '<p class="text-[10px] text-slate-400">Nenhum detalhe.</p>'}
             </div>
           </div>
         `;
-
         container.appendChild(card);
       });
       lucide.createIcons();
@@ -1212,11 +1553,8 @@
       const detailsEl = document.getElementById(`details-${id}`);
       const arrowEl = document.getElementById(`arrow-${id}`);
       if (!detailsEl) return;
-
       const isHidden = detailsEl.classList.toggle('hidden');
-      if (arrowEl) {
-        arrowEl.style.transform = isHidden ? 'rotate(0deg)' : 'rotate(180deg)';
-      }
+      if (arrowEl) arrowEl.style.transform = isHidden ? 'rotate(0deg)' : 'rotate(180deg)';
     }
 
     /* =====================================================================
@@ -1225,19 +1563,15 @@
     function formatCurrency(val) {
       return (val || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     }
-
     function capitalize(str) {
       if (!str) return '';
       return str.charAt(0).toUpperCase() + str.slice(1);
     }
-
     function escapeHTML(str) {
       if (!str) return '';
-      return str.replace(/[&<>'"]/g, 
-        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
-      );
+      return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
     }
-
+    
     let toastTimer;
     function showToast(msg) {
       const toast = document.getElementById('toastNotification');
@@ -1245,7 +1579,6 @@
       toastMsg.textContent = msg;
       toast.classList.remove('opacity-0');
       toast.classList.add('opacity-100');
-
       clearTimeout(toastTimer);
       toastTimer = setTimeout(() => {
         toast.classList.remove('opacity-100');
